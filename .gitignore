@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# RAID dataset
+data/raw/raid/*
+!data/raw/raid/.gitkeep
+
+# Filtered datasets
+data/filtered/*
+!data/filtered/.gitkeep
