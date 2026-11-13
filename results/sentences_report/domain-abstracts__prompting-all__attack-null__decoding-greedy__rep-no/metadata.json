@@ -1,0 +1,13 @@
+{
+  "domain": "abstracts",
+  "prompting": null,
+  "attack": "null",
+  "decoding": "greedy",
+  "repetition_penalty": "no",
+  "input_file": "/content/rhetorical_signatures/data/raw/raid/train.csv",
+  "n_documents": 12362,
+  "n_sentences_total": 93427,
+  "created_utc": "2026-11-13T19:34:01.011874+00:00",
+  "segmentation": "spacy en_core_web_sm dependency parser",
+  "word_count": "Python whitespace split"
+}

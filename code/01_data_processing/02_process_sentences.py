@@ -1,7 +1,7 @@
 """RAID sentence statistics and unpaired, length-stratified dataset selection.
 
 Import from a notebook; no CLI or main(). Requires pandas, numpy, spaCy,
-'en_core_web_sm', and raid_config.py in the same code directory.
+'en_core_web_sm', and code/config.py.
 """
 from __future__ import annotations
 
@@ -205,107 +205,241 @@ def _proportional_sample(group, target, bin_col, rng):
     return group.loc[indices].copy()
 
 
-def select_sentence_dataset(
-    documents, sentences, n_sentences=DEFAULT_N_SENTENCES, *, domain=None, prompting=None,
-    attack="null", decoding="greedy", repetition_penalty="no",
-    match_source_id=False, seed=RANDOM_SEED, n_bins=LENGTH_BINS, save=True,
-    include_human=True, output_dir=None, sampling="common_bins",
-):
-    """Select first n sentences with equal source counts.
 
-    match_source_id=True: sample complete groups of identical source_id.
-    match_source_id=False: sample independent documents per source.
-    sampling='common_bins' seeks common length-bin quotas across sources;
-    'proportional' preserves each source's original length distribution.
+
+def _length_matched_sample(pool, sources, counts, rng):
+    """Maximum-size, without-replacement length matching to the smallest source.
+
+    Uses minimum-cost bipartite assignment on absolute word-count differences.
+    Exact equality of distributions is not guaranteed when supports differ.
     """
-    if n_sentences < 1 or n_bins < 1:
-        raise ValueError("n_sentences and n_bins must be positive")
-    if sampling not in {"common_bins", "proportional"}:
-        raise ValueError("sampling must be common_bins or proportional")
-    if documents['id'].duplicated().any() or sentences.duplicated(['id', 'sentence_idx']).any():
-        raise ValueError("Duplicate document or sentence IDs")
-    meta = dict(documents.attrs.get("raid_metadata", {}))
-    requested = dict(domain=domain, prompting=prompting, attack=attack,
-                     decoding=decoding, repetition_penalty=repetition_penalty)
-    if requested['domain'] is not None:
-        requested['domain'] = _domain_key(requested['domain'])
-    for key, value in requested.items():
-        if key in meta and value is not None and meta[key] != value:
-            raise ValueError(f"Filter {key}={value!r} differs from analysis ({meta[key]!r}); rerun analysis")
-    if not meta:
-        meta = requested
-    eligible = documents.loc[documents['n_sentences'].ge(n_sentences)].copy()
-    first = sentences.loc[sentences['sentence_idx'].le(n_sentences) &
-                          sentences['id'].isin(eligible['id'])].sort_values(['id','sentence_idx'])
-    aggregates = first.groupby('id').agg(first_n_words=('n_words', 'sum'),
-        first_n_text=('sentence_text', ' '.join), counted=('sentence_idx','count'))
-    eligible = eligible.join(aggregates, on='id')
-    if eligible['counted'].ne(n_sentences).any():
-        raise ValueError("Sentence records missing for eligible documents")
-    eligible = eligible.drop(columns='counted')
-    sources = (['Human'] if include_human else []) + [x for x in MODEL_ORDER if x != 'Human']
+    from scipy.optimize import linear_sum_assignment
+
+    target = min(int(counts[source]) for source in sources)
+    reference = next(source for source in sources if int(counts[source]) == target)
+    reference_rows = pool.loc[pool['source'].eq(reference)].copy()
+    reference_lengths = reference_rows['first_n_words'].to_numpy(dtype=float)
+    pieces = [reference_rows]
+
+    for source in sources:
+        if source == reference:
+            continue
+        candidates = pool.loc[pool['source'].eq(source)].copy()
+        lengths = candidates['first_n_words'].to_numpy(dtype=float)
+        # Randomize only the order of equally good candidates, reproducibly.
+        order = rng.permutation(len(candidates))
+        candidates = candidates.iloc[order]
+        lengths = lengths[order]
+        cost = np.abs(reference_lengths[:, None] - lengths[None, :])
+        row_idx, col_idx = linear_sum_assignment(cost)
+        pieces.append(candidates.iloc[col_idx].copy())
+
+    return pd.concat(pieces, ignore_index=True)
+
+
+def _select_at_threshold(documents, sentences, n, sources, *, match_source_id,
+                         sampling, n_bins, seed):
+    """Construct a balanced candidate at a fixed sentence threshold."""
+    eligible = documents.loc[
+        documents['n_sentences'].ge(n) & documents['source'].isin(sources)
+    ].copy()
     counts = eligible['source'].value_counts()
-    missing = [s for s in sources if counts.get(s, 0) == 0]
-    if missing:
-        raise ValueError(f"No eligible documents for: {missing}")
-    pool = eligible.loc[eligible['source'].isin(sources)].copy()
+    if any(counts.get(source, 0) == 0 for source in sources):
+        raise ValueError('At least one requested source has no eligible documents')
+
+    # Reconstruct exactly the first n sentences, not the full document.
+    first = sentences.loc[
+        sentences['sentence_idx'].le(n) & sentences['id'].isin(eligible['id']),
+        ['id', 'sentence_idx', 'n_words', 'sentence_text']
+    ].sort_values(['id', 'sentence_idx'])
+    aggregates = first.groupby('id', sort=False).agg(
+        first_n_words=('n_words', 'sum'),
+        first_n_text=('sentence_text', ' '.join),
+        counted=('sentence_idx', 'size'),
+    )
+    eligible = eligible.join(aggregates, on='id')
+    if eligible['counted'].ne(n).any():
+        raise ValueError('Missing sentence records for eligible documents')
+    pool = eligible.drop(columns='counted')
     rng = np.random.default_rng(seed)
+
     if match_source_id:
-        # Only groups with at least one document from EVERY source.
-        pool = pool.dropna(subset=['source_id'])
-        groups = pool.groupby(['source_id','source'], sort=False).size().unstack(fill_value=0)
-        common_ids = groups.index[groups.reindex(columns=sources, fill_value=0).gt(0).all(axis=1)]
-        if len(common_ids) == 0:
-            raise ValueError("No complete source_id groups for requested sources")
-        pool = pool[pool['source_id'].isin(common_ids)].copy()
-        # One record per source and source_id, deterministic random selection.
+        pool = pool.dropna(subset=['source_id']).copy()
+        pool = pool.loc[pool['source_id'].astype('string').str.strip().ne('')]
         pool['_random'] = rng.random(len(pool))
-        pool = (pool.sort_values('_random').drop_duplicates(['source_id','source'])
-                    .drop(columns='_random'))
+        pool = (pool.sort_values('_random')
+                .drop_duplicates(['source_id', 'source'])
+                .drop(columns='_random'))
+        availability = pool.groupby(['source_id', 'source']).size().unstack(fill_value=0)
+        availability = availability.reindex(columns=sources, fill_value=0)
+        common_ids = availability.index[availability.gt(0).all(axis=1)]
+        if len(common_ids) == 0:
+            raise ValueError('No complete source_id groups')
+        pool = pool.loc[pool['source_id'].isin(common_ids)].copy()
+        # In paired mode all complete groups are retained. A length bin is
+        # descriptive; sampling must not break source_id alignment.
         wide = pool.pivot(index='source_id', columns='source', values='first_n_words')
-        wide['length'] = wide[sources].mean(axis=1)
-        wide['length_bin'] = pd.qcut(wide['length'], q=n_bins, labels=False, duplicates='drop')
-        if sampling == 'proportional':
-            chosen = wide.index.to_numpy()
-        else:
-            chosen = wide.index.to_numpy()  # all complete pairs; no arbitrary downsampling
-        selected = pool[pool['source_id'].isin(chosen)].copy()
-        selected = selected.join(wide['length_bin'], on='source_id')
-        target = len(chosen)
+        mean_length = wide[sources].mean(axis=1)
+        bins = pd.qcut(mean_length, q=n_bins, labels=False, duplicates='drop')
+        pool = pool.join(bins.rename('length_bin'), on='source_id')
+        selected = pool
     else:
-        pool['length_bin'] = pd.qcut(pool['first_n_words'], q=n_bins, labels=False, duplicates='drop')
-        if sampling == 'proportional':
-            target = min(int(counts[s]) for s in sources)
-            selected = pd.concat([_proportional_sample(pool[pool.source.eq(s)], target, 'length_bin', rng)
-                                  for s in sources], ignore_index=True)
+        pool['length_bin'] = pd.qcut(
+            pool['first_n_words'], q=n_bins, labels=False, duplicates='drop'
+        )
+        if sampling == 'length_match':
+            selected = _length_matched_sample(pool, sources, counts, rng)
+        elif sampling == 'proportional':
+            target = min(int(counts[source]) for source in sources)
+            selected = pd.concat([
+                _proportional_sample(pool.loc[pool['source'].eq(source)],
+                                     target, 'length_bin', rng)
+                for source in sources
+            ], ignore_index=True)
         else:
-            # Equal quota per bin, bounded by the smallest source count in each bin.
-            bin_counts = pool.groupby(['length_bin','source']).size().unstack(fill_value=0)
-            capacity = bin_counts.reindex(columns=sources, fill_value=0).min(axis=1)
-            target = int(capacity.sum())
-            if target == 0:
-                raise ValueError("No overlapping length bins across all sources")
+            bin_counts = pool.groupby(['length_bin', 'source']).size().unstack(fill_value=0)
+            capacities = bin_counts.reindex(columns=sources, fill_value=0).min(axis=1)
+            if int(capacities.sum()) == 0:
+                raise ValueError('No common length-bin capacity')
             pieces = []
             for source in sources:
-                for bin_id, quota in capacity.items():
-                    if quota:
-                        candidates = pool[(pool.source == source) & (pool.length_bin == bin_id)]
-                        chosen_idx = rng.choice(candidates.index.to_numpy(), size=int(quota), replace=False)
-                        pieces.append(pool.loc[chosen_idx])
+                source_pool = pool.loc[pool['source'].eq(source)]
+                for bin_id, quota in capacities.items():
+                    if int(quota) == 0:
+                        continue
+                    choices = source_pool.index[source_pool['length_bin'].eq(bin_id)].to_numpy()
+                    chosen = rng.choice(choices, size=int(quota), replace=False)
+                    pieces.append(pool.loc[chosen])
             selected = pd.concat(pieces, ignore_index=True)
-    selected = selected.sort_values(['source','id']).reset_index(drop=True)
+
+    selected = selected.sort_values(['source', 'id']).reset_index(drop=True)
+    selected_counts = selected['source'].value_counts()
+    return selected, counts, selected_counts
+
+
+def select_sentence_dataset(
+    documents, sentences, min_sentences=5, max_sentences=10, *,
+    domain=None, prompting=None, attack='null', decoding='greedy',
+    repetition_penalty='no', match_source_id=False, seed=RANDOM_SEED,
+    n_bins=LENGTH_BINS, save=True, include_human=True, output_dir=None,
+    sampling='common_bins',
+):
+    """Find the best first-n-sentence balanced dataset across an inclusive range.
+
+    Score each n by the *minimum number of selected documents among LLMs*,
+    after matching and length stratification. On ties, prefer larger n.
+    Human is included in balancing when include_human=True, but is not used
+    as a separate scoring model. Return (selected, threshold_comparison).
+
+    In unmatched length_match mode, retain the maximum balanced sample and
+    minimize absolute differences in first-n word counts against the smallest source.
+    In paired mode retain all complete source_id groups, one record per
+    (source_id, source); sampling mode does not change those groups.
+    """
+    if not isinstance(min_sentences, int) or not isinstance(max_sentences, int):
+        raise TypeError('min_sentences and max_sentences must be integers')
+    if not 1 <= min_sentences <= max_sentences:
+        raise ValueError('Require 1 <= min_sentences <= max_sentences')
+    if not isinstance(n_bins, int) or n_bins < 1:
+        raise ValueError('n_bins must be a positive integer')
+    if sampling not in {'common_bins', 'proportional', 'length_match'}:
+        raise ValueError("sampling must be 'common_bins', 'proportional' or 'length_match'")
+    if documents['id'].duplicated().any():
+        raise ValueError('Duplicate document IDs')
+    if sentences.duplicated(['id', 'sentence_idx']).any():
+        raise ValueError('Duplicate sentence IDs')
+
+    meta = dict(documents.attrs.get('raid_metadata', {}))
+    requested = dict(domain=domain, prompting=prompting, attack=attack,
+                     decoding=decoding, repetition_penalty=repetition_penalty)
+    if domain is not None:
+        requested['domain'] = _domain_key(domain)
+    for key, value in requested.items():
+        if key in meta and value is not None and meta[key] != value:
+            raise ValueError(
+                f'Filter {key}={value!r} differs from analysis ({meta[key]!r}); '
+                'rerun analyze_sentence_lengths'
+            )
+    if not meta:
+        meta = requested
+    # Fill metadata keys required for output path names, even when caller
+    # loaded documents from CSV and DataFrame.attrs were not preserved.
+    for key, value in requested.items():
+        meta.setdefault(key, value)
+    if meta['domain'] is None:
+        raise ValueError('Provide domain when documents metadata is unavailable')
+
+    llms = [s for s in MODEL_ORDER if s != 'Human']
+    sources = (['Human'] if include_human else []) + llms
+    if not set(sources).issubset(set(documents['source'].dropna())):
+        missing = sorted(set(sources) - set(documents['source'].dropna()))
+        raise ValueError(f'Missing sources: {missing}')
+
+    candidates = []
+    report_rows = []
+    for n in range(min_sentences, max_sentences + 1):
+        eligible_counts = documents.loc[
+            documents['n_sentences'].ge(n), 'source'
+        ].value_counts()
+        row = {
+            'n_sentences': n,
+            'min_eligible_llm': min(int(eligible_counts.get(s, 0)) for s in llms),
+        }
+        for source in sources:
+            row[f'eligible_{source}'] = int(eligible_counts.get(source, 0))
+        try:
+            candidate, _, selected_counts = _select_at_threshold(
+                documents, sentences, n, sources,
+                match_source_id=match_source_id, sampling=sampling,
+                n_bins=n_bins, seed=seed,
+            )
+            row['min_selected_llm'] = min(int(selected_counts.get(s, 0)) for s in llms)
+            row['total_selected'] = len(candidate)
+            row['status'] = 'ok'
+            for source in sources:
+                row[f'selected_{source}'] = int(selected_counts.get(source, 0))
+            candidates.append((row['min_selected_llm'], n, candidate))
+        except ValueError as exc:
+            row.update(min_selected_llm=0, total_selected=0, status=str(exc))
+            for source in sources:
+                row[f'selected_{source}'] = 0
+        report_rows.append(row)
+
+    if not candidates:
+        raise ValueError('No valid dataset in the requested sentence range')
+
+    # Primary criterion: largest minimum LLM count. Tie-break: largest n.
+    best_count, best_n, selected = max(candidates, key=lambda item: (item[0], item[1]))
+    comparison = pd.DataFrame(report_rows)
+    comparison['is_best'] = comparison['n_sentences'].eq(best_n)
     result_meta = dict(meta)
-    result_meta.update(n_sentences=n_sentences, match_source_id=match_source_id,
-        seed=seed, n_bins=n_bins, sampling=sampling, include_human=include_human,
-        n_per_source=target, eligible_counts={s:int(counts.get(s,0)) for s in sources},
-        selected_counts={s:int((selected.source == s).sum()) for s in sources})
+    result_meta.update(
+        min_sentences=min_sentences, max_sentences=max_sentences,
+        best_n_sentences=best_n, best_min_llm_documents=best_count,
+        match_source_id=match_source_id, seed=seed, n_bins=n_bins,
+        sampling=sampling, include_human=include_human,
+        selection_criterion='maximize minimum selected LLM documents; tie: larger n',
+        selected_counts={s: int(selected['source'].eq(s).sum()) for s in sources},
+    )
     selected.attrs['raid_metadata'] = result_meta
+    comparison.attrs['raid_metadata'] = result_meta
+
     if save:
         base = Path(output_dir) if output_dir is not None else FILTERED_DIR
-        folder = base / _run_name(meta) / f"n-{n_sentences}__matched-{int(match_source_id)}__{sampling}__seed-{seed}__bins-{n_bins}"
+        folder = (base / _run_name(meta) /
+                  f'range-{min_sentences}-{max_sentences}__best-{best_n}'
+                  f'__matched-{int(match_source_id)}__{sampling}'
+                  f'__seed-{seed}__bins-{n_bins}__human-{int(include_human)}')
         _save_metadata(folder, result_meta)
-        selected.to_csv(folder/'selected_documents.csv', index=False)
-        pd.DataFrame({'source':sources, 'eligible':[int(counts.get(s,0)) for s in sources],
-            'selected':[int((selected.source == s).sum()) for s in sources]}).to_csv(folder/'sampling_report.csv', index=False)
+        selected.to_csv(folder / 'selected_documents.csv', index=False)
+        comparison.to_csv(folder / 'threshold_comparison.csv', index=False)
+        selected_row = comparison.loc[comparison['is_best']].iloc[0]
+        pd.DataFrame([
+            {'source': s, 'eligible': int(selected_row[f'eligible_{s}']),
+             'selected': int(selected_row[f'selected_{s}'])}
+            for s in sources
+        ]).to_csv(folder / 'sampling_report.csv', index=False)
         print('Saved selected dataset:', folder)
-    return selected
+
+    print(f'Best n={best_n}; minimum selected LLM documents={best_count:,}')
+    return selected, comparison
