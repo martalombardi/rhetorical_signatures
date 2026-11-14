@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "c7526cc8f6ad7ff53e48a99062bf40f15aac5755ab2d068d5012f3b818b60cf9",
+    "rep_sha256": "7d4b1a41fcb0be9088cd70a77d1893abfc9ec9948d48ed84ec5040c65bc1d80f",
+    "treedepair_sha256": "3f9ba8197597264e3c37d74f2a11956393db7a93958d0253b0da49e335d5ca63"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "ChatGPT",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-abstracts__source-ChatGPT__n_sentences-6.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-abstracts__source-ChatGPT__n_sentences-6/0001__genre-abstracts__source-ChatGPT__n_sentences-6.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0001__genre-abstracts__source-ChatGPT__n_sentences-6/0001__genre-abstracts__source-ChatGPT__n_sentences-6.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 421,
+    "reconstructed_trees": 421,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "ef041e230d58f8ca0aa11ea1049998a03dbf53cc3a9c45741e2dca87640c38ba",
+  "updated_utc": "2026-11-14T16:17:52.160095+00:00"
+}

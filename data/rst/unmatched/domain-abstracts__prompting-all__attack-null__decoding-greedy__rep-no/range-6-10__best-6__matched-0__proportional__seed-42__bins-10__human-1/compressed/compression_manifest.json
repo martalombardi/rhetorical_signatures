@@ -1,0 +1,101 @@
+{
+  "created_utc": "2026-11-14T16:23:37.260129+00:00",
+  "forests_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests",
+  "output_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed",
+  "selection": {
+    "genre": "abstracts",
+    "n_sentences": 6,
+    "sources": null
+  },
+  "options": {
+    "textual": true,
+    "optimize": "filesize",
+    "max_rank": null
+  },
+  "results": [
+    {
+      "source": "ChatGPT",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-abstracts__source-ChatGPT__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-abstracts__source-ChatGPT__n_sentences-6/0001__genre-abstracts__source-ChatGPT__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-abstracts__source-ChatGPT__n_sentences-6/0001__genre-abstracts__source-ChatGPT__n_sentences-6.reptxt",
+      "rep_bytes": 7345,
+      "reptxt_bytes": 31328,
+      "forest_sha256": "c7526cc8f6ad7ff53e48a99062bf40f15aac5755ab2d068d5012f3b818b60cf9"
+    },
+    {
+      "source": "Cohere",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0002__genre-abstracts__source-Cohere__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0002__genre-abstracts__source-Cohere__n_sentences-6/0002__genre-abstracts__source-Cohere__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0002__genre-abstracts__source-Cohere__n_sentences-6/0002__genre-abstracts__source-Cohere__n_sentences-6.reptxt",
+      "rep_bytes": 8439,
+      "reptxt_bytes": 35861,
+      "forest_sha256": "6af51c90d53761b9969ee827918efebb1539fedaf11b4895e590b56348c101ec"
+    },
+    {
+      "source": "Cohere_Chat",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.reptxt",
+      "rep_bytes": 8034,
+      "reptxt_bytes": 33953,
+      "forest_sha256": "44b6d184de07655f8f6a7cac89fb69fbb0d11dfb1dab314df93d2d763495ed2b"
+    },
+    {
+      "source": "GPT-4",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-abstracts__source-GPT-4__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-abstracts__source-GPT-4__n_sentences-6/0004__genre-abstracts__source-GPT-4__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-abstracts__source-GPT-4__n_sentences-6/0004__genre-abstracts__source-GPT-4__n_sentences-6.reptxt",
+      "rep_bytes": 6898,
+      "reptxt_bytes": 28906,
+      "forest_sha256": "d51cc455ae6b7384066191a553990bae182e867d8e4573a92d5ccee7805c1d20"
+    },
+    {
+      "source": "Human",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-abstracts__source-Human__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0005__genre-abstracts__source-Human__n_sentences-6/0005__genre-abstracts__source-Human__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0005__genre-abstracts__source-Human__n_sentences-6/0005__genre-abstracts__source-Human__n_sentences-6.reptxt",
+      "rep_bytes": 8827,
+      "reptxt_bytes": 37195,
+      "forest_sha256": "10c3d8dbc6fe219381d7779be4fb21eb6ddbe0784b26ce6066adbcc8134cc653"
+    },
+    {
+      "source": "Mistral_7B",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-abstracts__source-Mistral_7B__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-abstracts__source-Mistral_7B__n_sentences-6/0006__genre-abstracts__source-Mistral_7B__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-abstracts__source-Mistral_7B__n_sentences-6/0006__genre-abstracts__source-Mistral_7B__n_sentences-6.reptxt",
+      "rep_bytes": 6409,
+      "reptxt_bytes": 26162,
+      "forest_sha256": "1b5176170f213c7010e5137950e4d1e7595a7a6c252dcc2bd69ecff55d7533e7"
+    },
+    {
+      "source": "Mistral_7B_Chat",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.xml",
+      "status": "CACHED_UNVALIDATED",
+      "returncode": 0,
+      "cached": true,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.reptxt",
+      "rep_bytes": 7470,
+      "reptxt_bytes": 31769,
+      "forest_sha256": "56bdba5ac90461a1d05df29a7a3c859c0890c356f4810ee97d20d50a645b0337"
+    }
+  ]
+}

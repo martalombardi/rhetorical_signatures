@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "d51cc455ae6b7384066191a553990bae182e867d8e4573a92d5ccee7805c1d20",
+    "rep_sha256": "e8dc28311f763896129025dbb5d39e2e2e97aaa738abfb8f7cfb2fd8c48b2809",
+    "treedepair_sha256": "3f9ba8197597264e3c37d74f2a11956393db7a93958d0253b0da49e335d5ca63"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "GPT-4",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-abstracts__source-GPT-4__n_sentences-6.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-abstracts__source-GPT-4__n_sentences-6/0004__genre-abstracts__source-GPT-4__n_sentences-6.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0004__genre-abstracts__source-GPT-4__n_sentences-6/0004__genre-abstracts__source-GPT-4__n_sentences-6.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 421,
+    "reconstructed_trees": 421,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "eced432d3f9129c91c4cc672e1ba82f1d12efa98bad5717cf67f5242852620df",
+  "updated_utc": "2026-11-14T16:17:52.947005+00:00"
+}

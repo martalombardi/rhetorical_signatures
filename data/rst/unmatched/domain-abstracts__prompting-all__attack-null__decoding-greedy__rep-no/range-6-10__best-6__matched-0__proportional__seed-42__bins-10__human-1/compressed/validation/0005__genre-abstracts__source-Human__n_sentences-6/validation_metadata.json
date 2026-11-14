@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "10c3d8dbc6fe219381d7779be4fb21eb6ddbe0784b26ce6066adbcc8134cc653",
+    "rep_sha256": "7c4985441d14636c310f2ed1fbf93dcedb71fe92c203b98b8e113b2ac09793d1",
+    "treedepair_sha256": "3f9ba8197597264e3c37d74f2a11956393db7a93958d0253b0da49e335d5ca63"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "Human",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-abstracts__source-Human__n_sentences-6.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0005__genre-abstracts__source-Human__n_sentences-6/0005__genre-abstracts__source-Human__n_sentences-6.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0005__genre-abstracts__source-Human__n_sentences-6/0005__genre-abstracts__source-Human__n_sentences-6.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 421,
+    "reconstructed_trees": 421,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "39084517e6642288c1964c39f45fca1aa79321985c381c622550876e5e77177a",
+  "updated_utc": "2026-11-14T16:17:53.702261+00:00"
+}

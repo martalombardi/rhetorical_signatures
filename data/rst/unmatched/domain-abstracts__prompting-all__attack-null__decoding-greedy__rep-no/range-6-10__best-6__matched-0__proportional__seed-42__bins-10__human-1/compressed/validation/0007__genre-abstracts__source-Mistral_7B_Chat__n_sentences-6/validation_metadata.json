@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "56bdba5ac90461a1d05df29a7a3c859c0890c356f4810ee97d20d50a645b0337",
+    "rep_sha256": "1413dd5a91e33b9b38b33150849cb5e4f02d63714ae47fe5b7191796b8f75675",
+    "treedepair_sha256": "3f9ba8197597264e3c37d74f2a11956393db7a93958d0253b0da49e335d5ca63"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "Mistral_7B_Chat",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 421,
+    "reconstructed_trees": 421,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "744c56caf6fe7436413843b640914acc783e9044a3297dea862b183ff73fd7f8",
+  "updated_utc": "2026-11-14T16:17:54.194343+00:00"
+}
