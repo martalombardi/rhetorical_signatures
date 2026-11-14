@@ -1,0 +1,23 @@
+{
+  "signature": {
+    "forest_sha256": "2000a230bd8a96d83c94c2c86725eae02678862adb9bb99265ca81bd20abb3ba",
+    "binary_sha256": "bd65cc656feb67e9c041ae4734a7c8f4f2daacd13a05f4ca0b62012567f27ada",
+    "options": {
+      "textual": true,
+      "optimize": "filesize",
+      "max_rank": null
+    }
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-news__source-ChatGPT__n_sentences-10.xml",
+  "binary": "/content/rhetorical_signatures/code/03_treerepair/vendor/TreeRePair/TreeRePair/TreeRePair",
+  "command": [
+    "/content/rhetorical_signatures/code/03_treerepair/vendor/TreeRePair/TreeRePair/TreeRePair",
+    "-optimize",
+    "filesize",
+    "-textual",
+    "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-news__source-ChatGPT__n_sentences-10/_staging/0001__genre-news__source-ChatGPT__n_sentences-10.xml"
+  ],
+  "status": "COMPLETED_UNVALIDATED",
+  "returncode": 0,
+  "updated_utc": "2026-11-14T20:24:38.921748+00:00"
+}

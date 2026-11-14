@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "a893f3dafe7b2874a3bfb617cd6332346989e4baac3bc24e394c0059913eb42f",
+    "rep_sha256": "5e9e337ba3fff74c5936db64eb1e1df0a5c48c846ece1aee5ad345571c658fc6",
+    "treedepair_sha256": "8cb5329c38162eb54c37c20f478e502fcf314bbdc1eb641fe8fbadd708e62728"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "GPT-4",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-news__source-GPT-4__n_sentences-10.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-news__source-GPT-4__n_sentences-10/0004__genre-news__source-GPT-4__n_sentences-10.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0004__genre-news__source-GPT-4__n_sentences-10/0004__genre-news__source-GPT-4__n_sentences-10.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 200,
+    "reconstructed_trees": 200,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "beb212a40944c170627de3661fb26f179e26f7d96712e618c1555a7b61627610",
+  "updated_utc": "2026-11-14T20:24:39.640968+00:00"
+}

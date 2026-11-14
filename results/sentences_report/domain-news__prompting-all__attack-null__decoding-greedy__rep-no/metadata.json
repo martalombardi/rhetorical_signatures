@@ -1,0 +1,13 @@
+{
+  "domain": "news",
+  "prompting": null,
+  "attack": "null",
+  "decoding": "greedy",
+  "repetition_penalty": "no",
+  "input_file": "/content/rhetorical_signatures/data/raw/raid/train.csv",
+  "n_documents": 12460,
+  "n_sentences_total": 188459,
+  "created_utc": "2026-11-14T20:23:36.665357+00:00",
+  "segmentation": "spacy en_core_web_sm dependency parser",
+  "word_count": "Python whitespace split"
+}

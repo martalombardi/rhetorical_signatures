@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "2000a230bd8a96d83c94c2c86725eae02678862adb9bb99265ca81bd20abb3ba",
+    "grammar_sha256": "64a5bf8bac85c0b08575c6a591ef3b6ab9ea9d1a8eb75d1cd1a544af2d521668",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "06df51a014f51a5630f58640aeafc98a677ce0cdc8353d4ae76f62dfaaede65c",
+  "json_sha256": "975565ff3188ef8bb570293183ae7c74a950e943f342029eabf09a3f48dad865",
+  "result": {
+    "dataset": "genre-news__n_sentences-10",
+    "source": "ChatGPT",
+    "status": "COMPLETED",
+    "n_motifs": 82,
+    "n_wildcard_motifs": 29,
+    "n_grammar_templates": 82,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-ChatGPT"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-news__source-ChatGPT__n_sentences-10.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-news__source-ChatGPT__n_sentences-10/0001__genre-news__source-ChatGPT__n_sentences-10.reptxt",
+  "generated_at": "2026-11-14T20:24:40.411381+00:00"
+}

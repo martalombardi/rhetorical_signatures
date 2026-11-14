@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "f3e886a8eaeb6b9f19f8e6c4c0f58c2f1d90f872dbd229787adbe7927a769a13",
+    "grammar_sha256": "2d368bd82766781d10848bae4c566871f5c3b9d1dc353504835333cc1db936b8",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "9864e6fceacfedb4554da057969eff41ffc5d2a53beb6aeab2cda88a4fb3cde2",
+  "json_sha256": "a9e75c3e1ec0736ab4947fa706b43682f7cb846c85030a989011612b504086cb",
+  "result": {
+    "dataset": "genre-news__n_sentences-10",
+    "source": "Cohere_Chat",
+    "status": "COMPLETED",
+    "n_motifs": 44,
+    "n_wildcard_motifs": 8,
+    "n_grammar_templates": 44,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Cohere_Chat"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-news__source-Cohere_Chat__n_sentences-10.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-news__source-Cohere_Chat__n_sentences-10/0003__genre-news__source-Cohere_Chat__n_sentences-10.reptxt",
+  "generated_at": "2026-11-14T20:24:40.665183+00:00"
+}

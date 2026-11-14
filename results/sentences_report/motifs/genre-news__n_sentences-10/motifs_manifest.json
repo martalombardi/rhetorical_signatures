@@ -1,0 +1,60 @@
+{
+  "version": 3,
+  "dataset": "genre-news__n_sentences-10",
+  "forests_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests",
+  "compression_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed",
+  "results_dir": "/content/rhetorical_signatures/results/sentences_report",
+  "results": [
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "ChatGPT",
+      "status": "COMPLETED",
+      "n_motifs": 82,
+      "n_wildcard_motifs": 29,
+      "n_grammar_templates": 82,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-ChatGPT"
+    },
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "Cohere",
+      "status": "COMPLETED",
+      "n_motifs": 78,
+      "n_wildcard_motifs": 26,
+      "n_grammar_templates": 78,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Cohere"
+    },
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "Cohere_Chat",
+      "status": "COMPLETED",
+      "n_motifs": 44,
+      "n_wildcard_motifs": 8,
+      "n_grammar_templates": 44,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Cohere_Chat"
+    },
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "GPT-4",
+      "status": "COMPLETED",
+      "n_motifs": 33,
+      "n_wildcard_motifs": 3,
+      "n_grammar_templates": 33,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-GPT-4"
+    },
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "Human",
+      "status": "COMPLETED",
+      "n_motifs": 49,
+      "n_wildcard_motifs": 9,
+      "n_grammar_templates": 49,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Human"
+    }
+  ],
+  "generated_at": "2026-11-14T20:24:40.838219+00:00"
+}
