@@ -1,0 +1,10 @@
+**/*.o
+**/*.a
+**/*.so
+**/*.d
+/vendor/TreeRePair/TreeRePair/TreeRePair
+/vendor/TreeRePair/TreeDePair/TreeDePair
+**/*.rep
+**/*.reptxt
+**/*.log
+**/__pycache__/
