@@ -1,0 +1,80 @@
+{
+  "version": 3,
+  "dataset": "genre-abstracts__n_sentences-6",
+  "forests_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests",
+  "compression_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed",
+  "results_dir": "/content/rhetorical_signatures/results",
+  "results": [
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "ChatGPT",
+      "status": "COMPLETED",
+      "n_motifs": 114,
+      "n_wildcard_motifs": 54,
+      "n_grammar_templates": 114,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-ChatGPT"
+    },
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "Cohere",
+      "status": "COMPLETED",
+      "n_motifs": 129,
+      "n_wildcard_motifs": 62,
+      "n_grammar_templates": 129,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-Cohere"
+    },
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "Cohere_Chat",
+      "status": "COMPLETED",
+      "n_motifs": 78,
+      "n_wildcard_motifs": 28,
+      "n_grammar_templates": 78,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-Cohere_Chat"
+    },
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "GPT-4",
+      "status": "COMPLETED",
+      "n_motifs": 103,
+      "n_wildcard_motifs": 45,
+      "n_grammar_templates": 103,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-GPT-4"
+    },
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "Human",
+      "status": "COMPLETED",
+      "n_motifs": 103,
+      "n_wildcard_motifs": 43,
+      "n_grammar_templates": 103,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-Human"
+    },
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "Mistral_7B",
+      "status": "COMPLETED",
+      "n_motifs": 122,
+      "n_wildcard_motifs": 63,
+      "n_grammar_templates": 122,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B"
+    },
+    {
+      "dataset": "genre-abstracts__n_sentences-6",
+      "source": "Mistral_7B_Chat",
+      "status": "COMPLETED",
+      "n_motifs": 114,
+      "n_wildcard_motifs": 58,
+      "n_grammar_templates": 114,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B_Chat"
+    }
+  ],
+  "generated_at": "2026-11-14T17:00:50.531780+00:00"
+}

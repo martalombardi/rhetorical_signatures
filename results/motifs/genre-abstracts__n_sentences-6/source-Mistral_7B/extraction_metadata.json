@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "1b5176170f213c7010e5137950e4d1e7595a7a6c252dcc2bd69ecff55d7533e7",
+    "grammar_sha256": "98b1a2bee3a3cdcd3161e9760b0d4aab17e90216366c0656e53258a343cc3b53",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "b2e8be2293db114948083452803103a08f9dd994aeec281d766f72b5703a6104",
+  "json_sha256": "ea90f620911ba861c781ab64fe9097f2ff7e234c0024898ee9ca411b7661dede",
+  "result": {
+    "dataset": "genre-abstracts__n_sentences-6",
+    "source": "Mistral_7B",
+    "status": "COMPLETED",
+    "n_motifs": 122,
+    "n_wildcard_motifs": 63,
+    "n_grammar_templates": 122,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-abstracts__source-Mistral_7B__n_sentences-6.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-abstracts__source-Mistral_7B__n_sentences-6/0006__genre-abstracts__source-Mistral_7B__n_sentences-6.reptxt",
+  "generated_at": "2026-11-14T17:00:50.349661+00:00"
+}
