@@ -15,6 +15,16 @@ DECODING = "greedy"
 REPETITION_PENALTY = "no"
 
 # ------------------------------------------------------------
+# Sentence analysis
+# ------------------------------------------------------------
+
+# Force recomputation even if cached results exist
+SENTENCE_ANALYSIS_REBUILD = False
+
+# Show spaCy parsing progress
+SENTENCE_ANALYSIS_SHOW_PROGRESS = True
+
+# ------------------------------------------------------------
 # Dataset selection
 # ------------------------------------------------------------
 
@@ -47,6 +57,7 @@ RST_DEVICE = "auto"
 
 # None = parse the entire selected dataset
 RST_LIMIT = None
+RST_REBUILD = False
 
 # Whether to retry previously failed documents
 RST_RETRY_ERRORS = False

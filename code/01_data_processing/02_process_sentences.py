@@ -655,26 +655,106 @@ def selection_diagnostics(documents, sentences, selections, *, plot=True):
     return count_table, distribution_table
 
 
-def load_or_analyze_sentence_lengths(domain, prompting=None, attack='null',
-                                     decoding='greedy', repetition_penalty='no',
-                                     *, show_progress=True):
-    """Reuse analysis CSVs in RESULTS_DIR, or parse and save them if absent."""
-    filters = dict(domain=_domain_key(domain), prompting=prompting, attack=attack,
-                   decoding=decoding, repetition_penalty=repetition_penalty)
+
+def load_or_analyze_sentence_lengths(
+    domain,
+    prompting=None,
+    attack="null",
+    decoding="greedy",
+    repetition_penalty="no",
+    *,
+    rebuild=False,
+    show_progress=True,
+):
+    """Load cached sentence analysis or compute it if necessary.
+
+    Cached results are reused only when the requested RAID
+    filters match the saved metadata.
+
+    Set rebuild=True to force recomputation.
+    """
+
+    filters = dict(
+        domain=_domain_key(domain),
+        prompting=prompting,
+        attack=attack,
+        decoding=decoding,
+        repetition_penalty=repetition_penalty,
+    )
+
     folder = RESULTS_DIR / _run_name(filters)
-    required = ('documents.csv', 'sentences.csv', 'metadata.json')
-    if all((folder / name).is_file() for name in required):
-        with (folder / 'metadata.json').open(encoding='utf-8') as f:
-            meta = json.load(f)
-        if all(meta.get(k) == v for k, v in filters.items()):
-            documents = pd.read_csv(folder / 'documents.csv',
-                                    dtype={'id': 'string', 'source_id': 'string'})
-            sentences = pd.read_csv(folder / 'sentences.csv', dtype={'id': 'string'})
-            documents.attrs['raid_metadata'] = meta
-            sentences.attrs['raid_metadata'] = meta
-            print('Loaded sentence analysis:', folder)
+
+    documents_path = folder / "documents.csv"
+    sentences_path = folder / "sentences.csv"
+    metadata_path = folder / "metadata.json"
+
+    cached_files_exist = all(
+        path.is_file()
+        for path in (
+            documents_path,
+            sentences_path,
+            metadata_path,
+        )
+    )
+
+    if cached_files_exist and not rebuild:
+
+        with metadata_path.open(
+            "r", encoding="utf-8"
+        ) as f:
+            metadata = json.load(f)
+
+        metadata_matches = all(
+            metadata.get(key) == value
+            for key, value in filters.items()
+        )
+
+        if metadata_matches:
+
+            documents = pd.read_csv(
+                documents_path,
+                dtype={
+                    "id": "string",
+                    "source_id": "string",
+                },
+            )
+
+            sentences = pd.read_csv(
+                sentences_path,
+                dtype={"id": "string"},
+            )
+
+            documents.attrs["raid_metadata"] = metadata
+            sentences.attrs["raid_metadata"] = metadata
+
+            print(
+                f"Loaded existing sentence analysis: {folder}"
+            )
+
             return documents, sentences
-    return analyze_sentence_lengths(domain, prompting=prompting, attack=attack,
-                                    decoding=decoding,
-                                    repetition_penalty=repetition_penalty,
-                                    save=True, show_progress=show_progress)
+
+        print(
+            "Cached metadata differs from the requested "
+            "experiment. Recomputing sentence analysis."
+        )
+
+    elif rebuild:
+        print(
+            "Rebuild requested: recomputing sentence analysis."
+        )
+
+    else:
+        print(
+            "No cached sentence analysis found. "
+            "Computing results."
+        )
+
+    return analyze_sentence_lengths(
+        domain=domain,
+        prompting=prompting,
+        attack=attack,
+        decoding=decoding,
+        repetition_penalty=repetition_penalty,
+        save=True,
+        show_progress=show_progress,
+    )

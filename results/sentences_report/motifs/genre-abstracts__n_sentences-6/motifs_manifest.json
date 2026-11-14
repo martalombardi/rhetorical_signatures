@@ -12,7 +12,7 @@
       "n_motifs": 114,
       "n_wildcard_motifs": 54,
       "n_grammar_templates": 114,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-ChatGPT"
     },
     {
@@ -22,7 +22,7 @@
       "n_motifs": 129,
       "n_wildcard_motifs": 62,
       "n_grammar_templates": 129,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Cohere"
     },
     {
@@ -32,7 +32,7 @@
       "n_motifs": 78,
       "n_wildcard_motifs": 28,
       "n_grammar_templates": 78,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Cohere_Chat"
     },
     {
@@ -42,7 +42,7 @@
       "n_motifs": 103,
       "n_wildcard_motifs": 45,
       "n_grammar_templates": 103,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-GPT-4"
     },
     {
@@ -52,7 +52,7 @@
       "n_motifs": 103,
       "n_wildcard_motifs": 43,
       "n_grammar_templates": 103,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Human"
     },
     {
@@ -62,7 +62,7 @@
       "n_motifs": 122,
       "n_wildcard_motifs": 63,
       "n_grammar_templates": 122,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B"
     },
     {
@@ -72,9 +72,9 @@
       "n_motifs": 114,
       "n_wildcard_motifs": 58,
       "n_grammar_templates": 114,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B_Chat"
     }
   ],
-  "generated_at": "2026-11-14T17:17:06.514991+00:00"
+  "generated_at": "2026-11-14T17:36:24.553180+00:00"
 }

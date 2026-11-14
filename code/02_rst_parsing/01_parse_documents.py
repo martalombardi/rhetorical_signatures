@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import importlib.util
 import json
+import hashlib
 import math
 from pathlib import Path
 import sys
@@ -96,368 +97,248 @@ def _append(path, item):
 
 
 
+def _fingerprint(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _read_jsonl(path):
+    if not path.is_file():
+        return []
+    records = []
+    with path.open(encoding="utf-8") as stream:
+        for number, line in enumerate(stream, 1):
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+                if not isinstance(record, dict) or "id" not in record:
+                    raise ValueError("missing document ID")
+                records.append(record)
+            except (json.JSONDecodeError, ValueError) as exc:
+                raise ValueError(f"Invalid JSONL: {path}, line {number}: {exc}") from exc
+    return records
+
+
+def _atomic_manifest(path, manifest):
+    temp = path.with_name(path.name + ".tmp")
+    temp.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    temp.replace(path)
+
+
 def parse_dataset(
-    *,
-    domain,
-    n_sentences,
-    prompting=None,
-    attack="null",
-    decoding="greedy",
-    repetition_penalty="no",
-    matched=False,
-    sampling="proportional",
-    seed=None,
-    n_bins=None,
-    include_human=True,
-    device="auto",
-    retry_errors=False,
-    limit=None,
-    output_root=None,
-    parser_factory=None,
-    min_sentences=None,
-    max_sentences=None,
+    *, domain, n_sentences, prompting=None, attack="null", decoding="greedy",
+    repetition_penalty="no", matched=False, sampling="proportional",
+    seed=None, n_bins=None, include_human=True, device="auto",
+    retry_errors=False, limit=None, output_root=None, parser_factory=None,
+    min_sentences=None, max_sentences=None,
+    model="tchewik/isanlp_rst_v3", model_version="rstdt", rebuild=False,
 ):
-    """
-    Parse an existing, previously selected RAID dataset.
+    """Parse a saved selection, resuming successful documents and recording failures.
 
-    Never creates or resamples a dataset.
-    Raises FileNotFoundError("dataset non creato") if the
-    requested selection does not exist.
+    Never creates or resamples the selection. A cache with incompatible metadata
+    raises an error unless rebuild=True, to prevent mixing parser configurations.
     """
-
     prep = _load_preprocessing()
-
     n = int(n_sentences)
     if n < 1 or n != n_sentences:
         raise ValueError("n_sentences must be a positive integer")
-
     if seed is None:
         seed = prep.RANDOM_SEED
-
     if n_bins is None:
         n_bins = prep.LENGTH_BINS
+    if limit is not None and (not isinstance(limit, int) or limit < 0):
+        raise ValueError("limit must be None or a non-negative integer")
+    if device not in ("auto", "cpu", "cuda"):
+        raise ValueError("device must be 'auto', 'cpu' or 'cuda'")
 
-    # --------------------------------------------------------
-    # Locate the existing experiment
-    # --------------------------------------------------------
-
-    analysis_meta = {
-        "domain": prep._domain_key(domain),
-        "prompting": prompting,
-        "attack": attack,
-        "decoding": decoding,
-        "repetition_penalty": repetition_penalty,
-    }
-
+    analysis_meta = dict(
+        domain=prep._domain_key(domain), prompting=prompting, attack=attack,
+        decoding=decoding, repetition_penalty=repetition_penalty,
+    )
     run = prep._run_name(analysis_meta)
-
-    selection_root = (
-        ROOT / "data" / "filtered" / "sentences" / run
+    selection_root = ROOT / "data" / "filtered" / "sentences" / run
+    suffix = (
+        f"__best-{n}__matched-{int(matched)}__{sampling}"
+        f"__seed-{seed}__bins-{n_bins}__human-{int(include_human)}"
     )
-
-    # --------------------------------------------------------
-    # Find an existing selection for exactly n sentences
-    # --------------------------------------------------------
-
-    selection_suffix = (
-        f"__best-{n}"
-        f"__matched-{int(matched)}"
-        f"__{sampling}"
-        f"__seed-{seed}"
-        f"__bins-{n_bins}"
-        f"__human-{int(include_human)}"
-    )
-
     if not selection_root.is_dir():
-        raise FileNotFoundError(
-            f"dataset non creato: {selection_root}"
-        )
-
+        raise FileNotFoundError(f"dataset non creato: {selection_root}")
     candidates = sorted(
-        path
-        for path in selection_root.iterdir()
-        if path.is_dir()
-        and path.name.startswith("range-")
-        and path.name.endswith(selection_suffix)
+        path for path in selection_root.iterdir()
+        if path.is_dir() and path.name.startswith("range-")
+        and path.name.endswith(suffix)
         and (path / "selected_documents.csv").is_file()
     )
-
-    # Optionally restrict the search to the exact
-    # preprocessing range used in the notebook.
     if min_sentences is not None and max_sentences is not None:
-        expected_prefix = (
-            f"range-{min_sentences}-{max_sentences}__"
-        )
-        candidates = [
-            path for path in candidates
-            if path.name.startswith(expected_prefix)
-        ]
-
+        prefix = f"range-{min_sentences}-{max_sentences}__"
+        candidates = [p for p in candidates if p.name.startswith(prefix)]
     if not candidates:
         raise FileNotFoundError(
-            "dataset non creato: "
-            f"no saved selection for n_sentences={n}, "
-            f"matched={matched}, run={run}"
+            f"dataset non creato: no saved selection for n_sentences={n}, "
+            f"matched={matched}, run={run}. Check N_SENTENCES against "
+            "the selection's best_n_sentences."
         )
-
-    if len(candidates) > 1:
-        raise RuntimeError(
-            "Multiple matching datasets found. "
-            "Specify min_sentences and max_sentences "
-            "to identify the intended selection:\n"
-            + "\n".join(str(p) for p in candidates)
-        )
+    if len(candidates) != 1:
+        raise RuntimeError("Multiple matching selections:\n" + "\n".join(map(str, candidates)))
 
     selection_dir = candidates[0]
+    selected_file = selection_dir / "selected_documents.csv"
+    selected = pd.read_csv(selected_file, dtype={"id": "string", "source_id": "string"})
+    required = {"id", "source_id", "source"}
+    if not required.issubset(selected.columns):
+        raise ValueError(f"Missing selected columns: {required - set(selected.columns)}")
+    if selected["id"].isna().any() or selected["id"].duplicated().any():
+        raise ValueError("Selected documents have null or duplicate IDs")
+    expected_ids = set(selected["id"].astype(str))
 
-    # --------------------------------------------------------
-    # Load selected documents and cached sentences
-    # --------------------------------------------------------
-
-    selected = pd.read_csv(
-        selection_dir / "selected_documents.csv"
-    )
-
-    sentences_file = (
-        ROOT
-        / "results"
-        / "sentences_report"
-        / run
-        / "sentences.csv"
-    )
-
-    if not sentences_file.is_file():
-        raise FileNotFoundError(
-            f"Sentence analysis not found: {sentences_file}"
-        )
-
-    sentences = pd.read_csv(sentences_file)
-
-    required_selected = {
-        "id", "source_id", "source"
-    }
-    required_sentences = {
-        "id", "sentence_idx", "sentence_text"
-    }
-
-    if not required_selected.issubset(selected.columns):
-        raise ValueError(
-            "Missing columns in selected_documents.csv: "
-            f"{required_selected - set(selected.columns)}"
-        )
-
-    if not required_sentences.issubset(sentences.columns):
-        raise ValueError(
-            "Missing columns in sentences.csv: "
-            f"{required_sentences - set(sentences.columns)}"
-        )
-
-    if selected["id"].astype(str).duplicated().any():
-        raise ValueError(
-            "Duplicate document IDs in selected dataset"
-        )
-
-    # --------------------------------------------------------
-    # Output directory
-    # --------------------------------------------------------
-
-    base = (
-        Path(output_root)
-        if output_root is not None
-        else ROOT / "data" / "rst"
-    )
-
-    out = (
-        base
-        / ("matched" if matched else "unmatched")
-        / run
-        / selection_dir.name
-    )
-
+    base = Path(output_root) if output_root is not None else ROOT / "data" / "rst"
+    out = base / ("matched" if matched else "unmatched") / run / selection_dir.name
     out.mkdir(parents=True, exist_ok=True)
+    trees_file, errors_file = out / "trees.jsonl", out / "errors.jsonl"
+    manifest_file = out / "manifest.json"
 
-    trees_file = out / "trees.jsonl"
-    errors_file = out / "errors.jsonl"
-
-    # --------------------------------------------------------
-    # Resume
-    # --------------------------------------------------------
-
-    done = _read_ids(trees_file)
-
-    errors = (
-        set()
-        if retry_errors
-        else _read_ids(errors_file)
+    identity = dict(
+        dataset_path=str(selection_dir), selection_sha256=_fingerprint(selected_file),
+        run=run, n_sentences=n, matched=bool(matched), sampling=sampling,
+        seed=seed, n_bins=n_bins, include_human=bool(include_human),
+        parser_model=model, parser_version=model_version,
     )
-
-    eligible = selected.loc[
-        ~selected["id"].astype(str).isin(done | errors)
-    ].copy()
-
-    if limit is not None:
-        if limit < 0:
-            raise ValueError("limit must be non-negative")
-        eligible = eligible.head(limit)
-
-    # --------------------------------------------------------
-    # Recover exactly the first n sentences
-    # --------------------------------------------------------
-
-    wanted = set(eligible["id"].astype(str))
-
-    first = sentences.loc[
-        sentences["id"].astype(str).isin(wanted)
-        & sentences["sentence_idx"].between(1, n),
-        ["id", "sentence_idx", "sentence_text"],
-    ].copy()
-
-    first = first.sort_values(
-        ["id", "sentence_idx"]
-    )
-
-    grouped = {
-        str(key): group
-        for key, group in first.groupby("id", sort=False)
-    }
-
-    for row in eligible.itertuples(index=False):
-        group = grouped.get(str(row.id))
-
-        if (
-            group is None
-            or len(group) != n
-            or group["sentence_idx"].tolist()
-               != list(range(1, n + 1))
-        ):
-            raise ValueError(
-                f"Missing or duplicated first {n} sentences "
-                f"for document {row.id}"
+    if rebuild:
+        for path in (trees_file, errors_file, manifest_file):
+            path.unlink(missing_ok=True)
+    elif trees_file.exists() or errors_file.exists():
+        if not manifest_file.is_file():
+            raise RuntimeError(
+                f"RST cache exists without manifest: {out}. "
+                "Cannot verify parser settings; set RST_REBUILD=True to regenerate."
+            )
+        with manifest_file.open(encoding="utf-8") as stream:
+            old = json.load(stream)
+        # Older manifests do not include selection_sha256; compare available
+        # fields and allow the legacy cache when its other settings match.
+        mismatches = [
+            key for key, value in identity.items()
+            if key in old and old[key] != value
+        ]
+        if mismatches:
+            raise RuntimeError(
+                f"Incompatible cached RST output at {out}; changed: {mismatches}. "
+                "Set RST_REBUILD=True to regenerate."
             )
 
-    # --------------------------------------------------------
-    # Initialize parser
-    # --------------------------------------------------------
+    done = _read_ids(trees_file)
+    failed = _read_ids(errors_file)
+    if not done.issubset(expected_ids) or not failed.issubset(expected_ids):
+        raise RuntimeError("Cached RST IDs do not match the selected dataset. Rebuild required.")
+    # Successful records always take precedence over older failure records.
+    pending = selected.loc[
+        ~selected["id"].astype(str).isin(done | (set() if retry_errors else failed))
+    ].copy()
+    if limit is not None:
+        pending = pending.head(limit)
 
+    print(f"RST cache: {len(done)}/{len(expected_ids)} successful; "
+          f"{len(failed - done)} previous failures; {len(pending)} to parse")
+
+    grouped = {}
+    if not pending.empty:
+        sentences_file = ROOT / "results" / "sentences_report" / run / "sentences.csv"
+        if not sentences_file.is_file():
+            raise FileNotFoundError(f"Sentence analysis not found: {sentences_file}")
+        sentences = pd.read_csv(sentences_file, dtype={"id": "string"})
+        columns = {"id", "sentence_idx", "sentence_text"}
+        if not columns.issubset(sentences.columns):
+            raise ValueError(f"Missing sentence columns: {columns - set(sentences.columns)}")
+        wanted = set(pending["id"].astype(str))
+        first = sentences.loc[
+            sentences["id"].astype(str).isin(wanted)
+            & sentences["sentence_idx"].between(1, n),
+            ["id", "sentence_idx", "sentence_text"],
+        ].sort_values(["id", "sentence_idx"])
+        grouped = {str(key): group for key, group in first.groupby("id", sort=False)}
+        for row in pending.itertuples(index=False):
+            group = grouped.get(str(row.id))
+            if (group is None or len(group) != n
+                    or group["sentence_idx"].tolist() != list(range(1, n + 1))
+                    or group["sentence_text"].isna().any()):
+                raise ValueError(f"Missing or duplicated first {n} sentences for {row.id}")
+
+    # Write a manifest BEFORE parsing, so an interrupted run remains resumable.
+    def update_manifest():
+        success = _read_ids(trees_file)
+        errors = _read_ids(errors_file) - success
+        _atomic_manifest(manifest_file, {
+            **identity, "total_selected": len(selected),
+            "successful_ids": len(success), "error_ids": len(errors),
+            "output_directory": str(out),
+            "updated_utc": datetime.now(timezone.utc).isoformat(),
+        })
+
+    update_manifest()
     parser = None
-
-    if not eligible.empty:
+    if not pending.empty:
         if parser_factory is None:
             import torch
             from isanlp_rst.parser import Parser
-
-            if device not in ("auto", "cpu", "cuda"):
-                raise ValueError(
-                    "device must be 'auto', 'cpu', or 'cuda'"
-                )
-
             if device == "cuda" and not torch.cuda.is_available():
-                raise RuntimeError(
-                    "CUDA requested but not available"
-                )
-
-            use_cuda = (
-                torch.cuda.is_available()
-                if device == "auto"
-                else device == "cuda"
-            )
-
+                raise RuntimeError("CUDA requested but not available")
+            use_cuda = torch.cuda.is_available() if device == "auto" else device == "cuda"
             parser = Parser(
-                hf_model_name="tchewik/isanlp_rst_v3",
-                hf_model_version="rstdt",
+                hf_model_name=model, hf_model_version=model_version,
                 cuda_device=0 if use_cuda else -1,
             )
         else:
             parser = parser_factory()
 
-    # --------------------------------------------------------
-    # Parse documents
-    # --------------------------------------------------------
-
-    for row in tqdm(
-        eligible.itertuples(index=False),
-        total=len(eligible),
-        desc=f"RST parsing (n={n})",
-    ):
-        text = "\n".join(
-            grouped[str(row.id)]["sentence_text"].astype(str)
+    for row in tqdm(pending.itertuples(index=False), total=len(pending),
+                    desc=f"RST parsing (n={n})"):
+        text = "\n".join(grouped[str(row.id)]["sentence_text"].astype(str))
+        record = dict(
+            id=str(row.id), source_id=str(row.source_id), source=str(row.source),
+            n_sentences=n, text=text,
         )
-
-        base_record = {
-            "id": str(row.id),
-            "source_id": str(row.source_id),
-            "source": str(row.source),
-            "n_sentences": n,
-            "text": text,
-        }
-
         try:
             result = parser(text)
             tree = result["rst"][0]
-
-            _append(
-                trees_file,
-                {
-                    **base_record,
-                    "rst_raw_type": (
-                        f"{type(tree).__module__}."
-                        f"{type(tree).__qualname__}"
-                    ),
-                    "rst_result": _jsonable(result),
-                    "parsed_utc": (
-                        datetime.now(timezone.utc).isoformat()
-                    ),
-                },
-            )
-
+            _append(trees_file, {
+                **record,
+                "rst_raw_type": f"{type(tree).__module__}.{type(tree).__qualname__}",
+                "rst_result": _jsonable(result),
+                "parsed_utc": datetime.now(timezone.utc).isoformat(),
+            })
         except Exception as exc:
-            _append(
-                errors_file,
-                {
-                    **base_record,
-                    "error_type": type(exc).__name__,
-                    "error": str(exc),
-                    "traceback": traceback.format_exc(),
-                    "failed_utc": (
-                        datetime.now(timezone.utc).isoformat()
-                    ),
-                },
-            )
-
-    # --------------------------------------------------------
-    # Manifest
-    # --------------------------------------------------------
-
-    manifest = {
-        "dataset_path": str(selection_dir),
-        "run": run,
-        "n_sentences": n,
-        "matched": matched,
-        "sampling": sampling,
-        "seed": seed,
-        "n_bins": n_bins,
-        "include_human": include_human,
-        "parser_model": "tchewik/isanlp_rst_v3",
-        "parser_version": "rstdt",
-        "total_selected": len(selected),
-        "successful_ids": len(_read_ids(trees_file)),
-        "error_ids": len(_read_ids(errors_file)),
-        "output_directory": str(out),
-        "updated_utc": (
-            datetime.now(timezone.utc).isoformat()
-        ),
-    }
-
-    (out / "manifest.json").write_text(
-        json.dumps(
-            manifest,
-            ensure_ascii=False,
-            indent=2,
-        ),
-        encoding="utf-8",
-    )
+            _append(errors_file, {
+                **record, "error_type": type(exc).__name__,
+                "error": str(exc), "traceback": traceback.format_exc(),
+                "failed_utc": datetime.now(timezone.utc).isoformat(),
+            })
+        update_manifest()
 
     print(f"Loaded existing dataset: {selection_dir}")
     print(f"RST output: {out}")
-
     return out
+
+def load_or_parse_dataset(**kwargs):
+    """Load cached RST trees, parsing missing documents if necessary."""
+
+    output = parse_dataset(**kwargs)
+
+    trees_file = output / "trees.jsonl"
+
+    if not trees_file.is_file():
+        raise FileNotFoundError(
+            f"RST trees not found: {trees_file}"
+        )
+
+    with trees_file.open(encoding="utf-8") as f:
+        trees = [
+            json.loads(line)
+            for line in f
+            if line.strip()
+        ]
+
+    return output, trees
