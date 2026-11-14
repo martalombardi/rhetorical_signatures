@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "6af51c90d53761b9969ee827918efebb1539fedaf11b4895e590b56348c101ec",
+    "grammar_sha256": "805062bbcb49d8915b5a9b4b527c8f30bdf31669483001db14321331bd6cc5ac",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "e637720738e6484ca68dd6c9895e42dfe06abfce4a5e1f82a2ab4fb85326d687",
+  "json_sha256": "b8435f1ab26fa5f46dc88d2e490331b4c215be0c4b42a0580b48f5150b80f02b",
+  "result": {
+    "dataset": "genre-abstracts__n_sentences-6",
+    "source": "Cohere",
+    "status": "COMPLETED",
+    "n_motifs": 129,
+    "n_wildcard_motifs": 62,
+    "n_grammar_templates": 129,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Cohere"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0002__genre-abstracts__source-Cohere__n_sentences-6.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0002__genre-abstracts__source-Cohere__n_sentences-6/0002__genre-abstracts__source-Cohere__n_sentences-6.reptxt",
+  "generated_at": "2026-11-14T17:17:05.371860+00:00"
+}

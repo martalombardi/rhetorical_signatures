@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "44b6d184de07655f8f6a7cac89fb69fbb0d11dfb1dab314df93d2d763495ed2b",
+    "grammar_sha256": "245d001e92c207c19a71deb455ee258900f35f0b1f5889af8d780e4c4942a455",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "87c3cfdb632214cfbef92b23933b4bff1ec653955f4d531b7ff660d223bd49c3",
+  "json_sha256": "2291d9ebe2bd89b026c7b7ae03856d6945ced33b97a79a6644f904ecc39612ab",
+  "result": {
+    "dataset": "genre-abstracts__n_sentences-6",
+    "source": "Cohere_Chat",
+    "status": "COMPLETED",
+    "n_motifs": 78,
+    "n_wildcard_motifs": 28,
+    "n_grammar_templates": 78,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Cohere_Chat"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.reptxt",
+  "generated_at": "2026-11-14T17:17:05.529611+00:00"
+}

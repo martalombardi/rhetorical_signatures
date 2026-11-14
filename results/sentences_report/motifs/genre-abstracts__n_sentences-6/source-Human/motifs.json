@@ -1,0 +1,1032 @@
+[
+  {
+    "motif": "NS_ELABORATION(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 1829,
+    "grammar_symbols": [
+      496
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 1181,
+    "grammar_symbols": [
+      494
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,X),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 392,
+    "grammar_symbols": [
+      505
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_ELABORATION(EDU,X),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 345,
+    "grammar_symbols": [
+      613
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 321,
+    "grammar_symbols": [
+      523
+    ]
+  },
+  {
+    "motif": "NS_SUMMARY(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 316,
+    "grammar_symbols": [
+      522
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 287,
+    "grammar_symbols": [
+      539
+    ]
+  },
+  {
+    "motif": "NS_ENABLEMENT(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 248,
+    "grammar_symbols": [
+      501
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 206,
+    "grammar_symbols": [
+      502
+    ]
+  },
+  {
+    "motif": "NS_MANNER-MEANS(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 200,
+    "grammar_symbols": [
+      563
+    ]
+  },
+  {
+    "motif": "SN_ATTRIBUTION(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 195,
+    "grammar_symbols": [
+      536
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 192,
+    "grammar_symbols": [
+      506
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 183,
+    "grammar_symbols": [
+      515
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 157,
+    "grammar_symbols": [
+      520
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 129,
+    "grammar_symbols": [
+      517
+    ]
+  },
+  {
+    "motif": "NS_MANNER-MEANS(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 118,
+    "grammar_symbols": [
+      511
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(NS_ELABORATION(EDU,X),X),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 100,
+    "grammar_symbols": [
+      543
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ELABORATION(EDU,X),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 95,
+    "grammar_symbols": [
+      579
+    ]
+  },
+  {
+    "motif": "SN_BACKGROUND(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 95,
+    "grammar_symbols": [
+      564
+    ]
+  },
+  {
+    "motif": "NS_BACKGROUND(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 84,
+    "grammar_symbols": [
+      514
+    ]
+  },
+  {
+    "motif": "SN_ATTRIBUTION(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 72,
+    "grammar_symbols": [
+      521
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,X),EDU)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 69,
+    "grammar_symbols": [
+      665
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),X),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 68,
+    "grammar_symbols": [
+      661
+    ]
+  },
+  {
+    "motif": "SN_ENABLEMENT(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 65,
+    "grammar_symbols": [
+      619
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 64,
+    "grammar_symbols": [
+      609
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ELABORATION(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 61,
+    "grammar_symbols": [
+      537
+    ]
+  },
+  {
+    "motif": "NS_CAUSE(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 60,
+    "grammar_symbols": [
+      529
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 52,
+    "grammar_symbols": [
+      550
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(NS_ELABORATION(EDU,EDU),X),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 51,
+    "grammar_symbols": [
+      552
+    ]
+  },
+  {
+    "motif": "NS_EXPLANATION(EDU,X)",
+    "has_wildcard": true,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 51,
+    "grammar_symbols": [
+      593
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NS_ENABLEMENT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 48,
+    "grammar_symbols": [
+      597
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 47,
+    "grammar_symbols": [
+      580
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 46,
+    "grammar_symbols": [
+      562
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 46,
+    "grammar_symbols": [
+      545
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,NS_ELABORATION(EDU,X))",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 37,
+    "grammar_symbols": [
+      621
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NN_JOINT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 36,
+    "grammar_symbols": [
+      568
+    ]
+  },
+  {
+    "motif": "SN_BACKGROUND(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 32,
+    "grammar_symbols": [
+      577
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,EDU),NS_ELABORATION(EDU,X))",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 31,
+    "grammar_symbols": [
+      595
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,NS_ELABORATION(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 31,
+    "grammar_symbols": [
+      567
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(SN_ATTRIBUTION(EDU,X),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 30,
+    "grammar_symbols": [
+      633
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 28,
+    "grammar_symbols": [
+      659
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,X),NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 28,
+    "grammar_symbols": [
+      668
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_SUMMARY(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 27,
+    "grammar_symbols": [
+      598
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_ELABORATION(EDU,NS_ELABORATION(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 26,
+    "grammar_symbols": [
+      617
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 25,
+    "grammar_symbols": [
+      560
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ENABLEMENT(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 25,
+    "grammar_symbols": [
+      582
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NS_MANNER-MEANS(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 24,
+    "grammar_symbols": [
+      660
+    ]
+  },
+  {
+    "motif": "NS_EXPLANATION(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 23,
+    "grammar_symbols": [
+      590
+    ]
+  },
+  {
+    "motif": "SN_CONTRAST(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 23,
+    "grammar_symbols": [
+      569
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ENABLEMENT(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 22,
+    "grammar_symbols": [
+      589
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 21,
+    "grammar_symbols": [
+      666
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NS_BACKGROUND(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 21,
+    "grammar_symbols": [
+      611
+    ]
+  },
+  {
+    "motif": "NS_MANNER-MEANS(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 21,
+    "grammar_symbols": [
+      572
+    ]
+  },
+  {
+    "motif": "SN_ENABLEMENT(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 21,
+    "grammar_symbols": [
+      640
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ELABORATION(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 20,
+    "grammar_symbols": [
+      584
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_JOINT(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 20,
+    "grammar_symbols": [
+      627
+    ]
+  },
+  {
+    "motif": "NS_EVALUATION(NS_ELABORATION(EDU,X),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 20,
+    "grammar_symbols": [
+      655
+    ]
+  },
+  {
+    "motif": "NN_CONTRAST(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 19,
+    "grammar_symbols": [
+      610
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 19,
+    "grammar_symbols": [
+      686
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_MANNER-MEANS(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 19,
+    "grammar_symbols": [
+      630
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,NS_ELABORATION(EDU,NS_ELABORATION(EDU,EDU)))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 18,
+    "grammar_symbols": [
+      691
+    ]
+  },
+  {
+    "motif": "SN_ATTRIBUTION(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 17,
+    "grammar_symbols": [
+      576
+    ]
+  },
+  {
+    "motif": "NS_COMPARISON(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 16,
+    "grammar_symbols": [
+      599
+    ]
+  },
+  {
+    "motif": "NS_CONDITION(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 16,
+    "grammar_symbols": [
+      600
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,NS_ENABLEMENT(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 16,
+    "grammar_symbols": [
+      585
+    ]
+  },
+  {
+    "motif": "SN_BACKGROUND(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 16,
+    "grammar_symbols": [
+      663
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 4,
+    "depth": 4,
+    "frequency": 14,
+    "grammar_symbols": [
+      607
+    ]
+  },
+  {
+    "motif": "NS_ENABLEMENT(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 14,
+    "grammar_symbols": [
+      648
+    ]
+  },
+  {
+    "motif": "SN_BACKGROUND(NS_ELABORATION(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 14,
+    "grammar_symbols": [
+      697
+    ]
+  },
+  {
+    "motif": "NN_TEMPORAL(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 13,
+    "grammar_symbols": [
+      591
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,EDU),NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 13,
+    "grammar_symbols": [
+      644
+    ]
+  },
+  {
+    "motif": "SN_ATTRIBUTION(EDU,NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 12,
+    "grammar_symbols": [
+      606
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_MANNER-MEANS(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 11,
+    "grammar_symbols": [
+      679
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(EDU,SN_ATTRIBUTION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 11,
+    "grammar_symbols": [
+      703
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),NS_ELABORATION(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 4,
+    "depth": 3,
+    "frequency": 11,
+    "grammar_symbols": [
+      694
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,NN_JOINT(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 10,
+    "grammar_symbols": [
+      622
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(SN_ENABLEMENT(EDU,EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 10,
+    "grammar_symbols": [
+      652
+    ]
+  },
+  {
+    "motif": "SN_ENABLEMENT(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 10,
+    "grammar_symbols": [
+      716
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 4,
+    "depth": 4,
+    "frequency": 9,
+    "grammar_symbols": [
+      638
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),EDU),EDU),X)",
+    "has_wildcard": true,
+    "n_relations": 4,
+    "depth": 4,
+    "frequency": 9,
+    "grammar_symbols": [
+      681
+    ]
+  },
+  {
+    "motif": "NS_ENABLEMENT(NS_SUMMARY(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 9,
+    "grammar_symbols": [
+      708
+    ]
+  },
+  {
+    "motif": "SN_CONTRAST(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 9,
+    "grammar_symbols": [
+      695
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,NS_MANNER-MEANS(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 8,
+    "grammar_symbols": [
+      620
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ELABORATION(EDU,EDU),NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 8,
+    "grammar_symbols": [
+      672
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NN_SAME-UNIT(NS_SUMMARY(EDU,EDU),NS_ELABORATION(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 4,
+    "depth": 3,
+    "frequency": 8,
+    "grammar_symbols": [
+      682
+    ]
+  },
+  {
+    "motif": "NS_ENABLEMENT(EDU,NN_JOINT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 8,
+    "grammar_symbols": [
+      637
+    ]
+  },
+  {
+    "motif": "NS_MANNER-MEANS(EDU,NN_JOINT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 8,
+    "grammar_symbols": [
+      692
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,NS_ENABLEMENT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 7,
+    "grammar_symbols": [
+      688
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ELABORATION(EDU,NS_ENABLEMENT(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 7,
+    "grammar_symbols": [
+      674
+    ]
+  },
+  {
+    "motif": "NS_CAUSE(NS_ELABORATION(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 7,
+    "grammar_symbols": [
+      702
+    ]
+  },
+  {
+    "motif": "NS_MANNER-MEANS(NS_ELABORATION(EDU,EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 7,
+    "grammar_symbols": [
+      717
+    ]
+  },
+  {
+    "motif": "NN_JOINT(NS_ENABLEMENT(EDU,EDU),NS_ENABLEMENT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 6,
+    "grammar_symbols": [
+      706
+    ]
+  },
+  {
+    "motif": "NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),NS_ENABLEMENT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 6,
+    "grammar_symbols": [
+      710
+    ]
+  },
+  {
+    "motif": "NS_BACKGROUND(EDU,NS_ELABORATION(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 6,
+    "grammar_symbols": [
+      696
+    ]
+  },
+  {
+    "motif": "NS_CONTRAST(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 6,
+    "grammar_symbols": [
+      699
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(SN_BACKGROUND(EDU,NS_ELABORATION(EDU,EDU)),X)",
+    "has_wildcard": true,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 6,
+    "grammar_symbols": [
+      677
+    ]
+  },
+  {
+    "motif": "NS_MANNER-MEANS(EDU,NS_ENABLEMENT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 6,
+    "grammar_symbols": [
+      685
+    ]
+  },
+  {
+    "motif": "NN_CAUSE(EDU,EDU)",
+    "has_wildcard": false,
+    "n_relations": 1,
+    "depth": 1,
+    "frequency": 5,
+    "grammar_symbols": [
+      718
+    ]
+  },
+  {
+    "motif": "NS_CAUSE(NN_SAME-UNIT(NS_ELABORATION(EDU,EDU),EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 5,
+    "grammar_symbols": [
+      683
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(EDU,EDU),NN_JOINT(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 2,
+    "frequency": 5,
+    "grammar_symbols": [
+      715
+    ]
+  },
+  {
+    "motif": "NS_ELABORATION(NS_ELABORATION(NS_SUMMARY(EDU,EDU),EDU),EDU)",
+    "has_wildcard": false,
+    "n_relations": 3,
+    "depth": 3,
+    "frequency": 5,
+    "grammar_symbols": [
+      704
+    ]
+  },
+  {
+    "motif": "NS_ENABLEMENT(EDU,NS_MANNER-MEANS(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 5,
+    "grammar_symbols": [
+      707
+    ]
+  },
+  {
+    "motif": "NN_JOINT(EDU,NS_BACKGROUND(EDU,EDU))",
+    "has_wildcard": false,
+    "n_relations": 2,
+    "depth": 2,
+    "frequency": 4,
+    "grammar_symbols": [
+      712
+    ]
+  }
+]

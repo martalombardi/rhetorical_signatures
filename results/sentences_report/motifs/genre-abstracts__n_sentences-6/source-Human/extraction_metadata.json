@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "10c3d8dbc6fe219381d7779be4fb21eb6ddbe0784b26ce6066adbcc8134cc653",
+    "grammar_sha256": "d46791af87d72b20f2cbaf38a3a859e95c89e0636a8e7174588186af0a8d75e6",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "8eec9ab8c4a6b5db6d35359e71e8aad9debbb82225c7640b3d2d5eee70c33124",
+  "json_sha256": "45d2e11f184ebbef07243d9a22ff377259834ba0402d12d5c1a27721c53a2eaf",
+  "result": {
+    "dataset": "genre-abstracts__n_sentences-6",
+    "source": "Human",
+    "status": "COMPLETED",
+    "n_motifs": 103,
+    "n_wildcard_motifs": 43,
+    "n_grammar_templates": 103,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Human"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-abstracts__source-Human__n_sentences-6.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/compressed/0005__genre-abstracts__source-Human__n_sentences-6/0005__genre-abstracts__source-Human__n_sentences-6.reptxt",
+  "generated_at": "2026-11-14T17:17:05.894982+00:00"
+}
