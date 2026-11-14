@@ -1,0 +1,49 @@
+
+[project]
+name = "rhetorical-signatures"
+version = "0.1.0"
+description = "RST parsing, grammar induction, and statistical analysis of rhetorical signatures in human- and LLM-generated text"
+requires-python = ">=3.10,<3.12"
+
+dependencies = [
+    # Numerical computing
+    "numpy",
+    "pandas",
+    "scipy",
+
+    # Statistical analysis and visualization
+    "matplotlib",
+    "seaborn",
+
+    # Utilities and progress monitoring
+    "tqdm",
+
+    # Dataset access and model management
+    "huggingface-hub",
+
+    # NLP and sentence segmentation
+    "spacy>=3.8,<3.9",
+    "en-core-web-sm",
+
+    # Deep learning
+    "torch",
+
+    # Rhetorical Structure Theory parsing
+    "isanlp-rst",
+]
+
+[dependency-groups]
+dev = [
+    # Interactive notebooks
+    "ipykernel",
+    "jupyterlab",
+
+    # Testing
+    "pytest",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
