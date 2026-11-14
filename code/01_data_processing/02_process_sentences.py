@@ -1,4 +1,4 @@
-"""RAID sentence statistics and unpaired, length-stratified dataset selection.
+"""RAID sentence statistics and distribution-preserving dataset selection.
 
 Import from a notebook; no CLI or main(). Requires pandas, numpy, spaCy,
 'en_core_web_sm', and code/config.py.
@@ -9,6 +9,8 @@ import json
 import re
 from pathlib import Path
 from datetime import datetime, timezone
+
+SELECTION_VERSION = 2  # Invalidate results from the previous selection algorithm.
 
 import numpy as np
 import pandas as pd
@@ -186,9 +188,15 @@ def analyze_sentence_lengths(
 
 
 def _proportional_sample(group, target, bin_col, rng):
-    """Allocate target observations across bins by largest remainders."""
-    if target > len(group):
-        raise ValueError('Cannot sample more than available without replacement')
+    """Sample exactly target rows, approximately preserving bin proportions.
+
+    Largest-remainder allocation ensures the requested size is exact; all
+    observations are sampled without replacement.
+    """
+    if not 0 < target <= len(group):
+        raise ValueError('Target must be positive and no larger than the pool')
+    if target == len(group):
+        return group.copy()
     counts = group[bin_col].value_counts(sort=False).sort_index()
     ideal = counts.to_numpy(dtype=float) * target / len(group)
     allocations = np.floor(ideal).astype(int)
@@ -199,11 +207,20 @@ def _proportional_sample(group, target, bin_col, rng):
         allocations[order[:remainder]] += 1
     indices = []
     for bin_value, n_take in zip(counts.index, allocations):
-        candidates = group.index[group[bin_col] == bin_value].to_numpy()
+        candidates = group.index[group[bin_col].eq(bin_value)].to_numpy()
         if n_take:
-            indices.extend(rng.choice(candidates, size=n_take, replace=False).tolist())
-    return group.loc[indices].copy()
+            indices.extend(rng.choice(candidates, size=int(n_take), replace=False))
+    sampled = group.loc[indices].copy()
+    if len(sampled) != target:
+        raise AssertionError('Proportional sampling did not reach the target')
+    return sampled
 
+
+def _source_length_bins(group, n_bins):
+    """Quantile bins based on this source's own first-n word lengths."""
+    bins = pd.qcut(group['first_n_words'], q=n_bins,
+                   labels=False, duplicates='drop')
+    return bins.fillna(0).astype(int)
 
 
 
@@ -284,19 +301,42 @@ def _select_at_threshold(documents, sentences, n, sources, *, match_source_id,
         pool = pool.join(bins.rename('length_bin'), on='source_id')
         selected = pool
     else:
-        pool['length_bin'] = pd.qcut(
-            pool['first_n_words'], q=n_bins, labels=False, duplicates='drop'
-        )
-        if sampling == 'length_match':
+        # The requested target is determined by LLMs only, not by Human.
+        llm_sources = [source for source in sources if source != 'Human']
+        target = min(int(counts[source]) for source in llm_sources)
+        if any(int(counts[source]) < target for source in sources):
+            raise ValueError(
+                f'An included source has fewer than {target} eligible documents; '
+                'cannot balance without replacement'
+            )
+
+        if sampling == 'proportional':
+            pieces = []
+            for source in sources:
+                source_pool = pool.loc[pool['source'].eq(source)].copy()
+                # Each source is stratified against its OWN distribution.
+                source_pool['length_bin'] = _source_length_bins(
+                    source_pool, n_bins
+                )
+                pieces.append(_proportional_sample(
+                    source_pool, target, 'length_bin', rng
+                ))
+            selected = pd.concat(pieces, ignore_index=True)
+        elif sampling == 'length_match':
+            # Kept for backwards compatibility; unlike proportional,
+            # this deliberately makes source length distributions similar.
+            pool['length_bin'] = pd.qcut(
+                pool['first_n_words'], q=n_bins,
+                labels=False, duplicates='drop'
+            ).fillna(0).astype(int)
             selected = _length_matched_sample(pool, sources, counts, rng)
-        elif sampling == 'proportional':
-            target = min(int(counts[source]) for source in sources)
-            selected = pd.concat([
-                _proportional_sample(pool.loc[pool['source'].eq(source)],
-                                     target, 'length_bin', rng)
-                for source in sources
-            ], ignore_index=True)
         else:
+            # Historical common-bin sampling, which may discard observations
+            # beyond the global minimum to equalize bin frequencies.
+            pool['length_bin'] = pd.qcut(
+                pool['first_n_words'], q=n_bins,
+                labels=False, duplicates='drop'
+            ).fillna(0).astype(int)
             bin_counts = pool.groupby(['length_bin', 'source']).size().unstack(fill_value=0)
             capacities = bin_counts.reindex(columns=sources, fill_value=0).min(axis=1)
             if int(capacities.sum()) == 0:
@@ -312,6 +352,11 @@ def _select_at_threshold(documents, sentences, n, sources, *, match_source_id,
                     pieces.append(pool.loc[chosen])
             selected = pd.concat(pieces, ignore_index=True)
 
+        if sampling == 'proportional':
+            final_counts = selected['source'].value_counts()
+            if any(int(final_counts.get(source, 0)) != target for source in sources):
+                raise AssertionError('Unmatched proportional selection is not balanced')
+
     selected = selected.sort_values(['source', 'id']).reset_index(drop=True)
     selected_counts = selected['source'].value_counts()
     return selected, counts, selected_counts
@@ -322,7 +367,7 @@ def select_sentence_dataset(
     domain=None, prompting=None, attack='null', decoding='greedy',
     repetition_penalty='no', match_source_id=False, seed=RANDOM_SEED,
     n_bins=LENGTH_BINS, save=True, include_human=True, output_dir=None,
-    sampling='common_bins',
+    sampling='proportional',
 ):
     """Find the best first-n-sentence balanced dataset across an inclusive range.
 
@@ -331,8 +376,11 @@ def select_sentence_dataset(
     Human is included in balancing when include_human=True, but is not used
     as a separate scoring model. Return (selected, threshold_comparison).
 
-    In unmatched length_match mode, retain the maximum balanced sample and
-    minimize absolute differences in first-n word counts against the smallest source.
+    In unmatched proportional mode, select the minimum eligible LLM count
+    from every source while preserving each source-specific length distribution
+    approximately via quantile-stratified sampling without replacement.
+    Human, if included, must have at least that many eligible documents.
+    The legacy length_match and common_bins modes remain available.
     In paired mode retain all complete source_id groups, one record per
     (source_id, source); sampling mode does not change those groups.
     """
@@ -418,6 +466,7 @@ def select_sentence_dataset(
         best_n_sentences=best_n, best_min_llm_documents=best_count,
         match_source_id=match_source_id, seed=seed, n_bins=n_bins,
         sampling=sampling, include_human=include_human,
+        selection_version=SELECTION_VERSION,
         selection_criterion='maximize minimum selected LLM documents; tie: larger n',
         selected_counts={s: int(selected['source'].eq(s).sum()) for s in sources},
     )
@@ -443,3 +492,189 @@ def select_sentence_dataset(
 
     print(f'Best n={best_n}; minimum selected LLM documents={best_count:,}')
     return selected, comparison
+
+
+def load_or_select_sentence_dataset(documents, sentences, *, min_sentences=5,
+                                    max_sentences=10, domain=None, prompting=None,
+                                    attack='null', decoding='greedy',
+                                    repetition_penalty='no', match_source_id=False,
+                                    sampling='proportional', n_bins=LENGTH_BINS,
+                                    seed=RANDOM_SEED, include_human=True,
+                                    output_dir=None):
+    """Load a compatible selection or compute it using the original output layout."""
+    base = Path(output_dir) if output_dir is not None else FILTERED_DIR
+    filters = dict(domain=_domain_key(domain), prompting=prompting, attack=attack,
+                   decoding=decoding, repetition_penalty=repetition_penalty)
+    root = base / _run_name(filters)
+    expected = dict(min_sentences=min_sentences, max_sentences=max_sentences,
+                    match_source_id=bool(match_source_id), sampling=sampling,
+                    seed=seed, n_bins=n_bins, include_human=bool(include_human),
+                    selection_version=SELECTION_VERSION)
+    pattern = (f'range-{min_sentences}-{max_sentences}__best-*'
+               f'__matched-{int(match_source_id)}__{sampling}'
+               f'__seed-{seed}__bins-{n_bins}__human-{int(include_human)}')
+    matches = []
+    for folder in root.glob(pattern):
+        required = ('metadata.json', 'selected_documents.csv',
+                    'threshold_comparison.csv', 'sampling_report.csv')
+        if not all((folder / name).is_file() for name in required):
+            continue
+        with (folder / 'metadata.json').open(encoding='utf-8') as f:
+            meta = json.load(f)
+        if all(meta.get(k) == v for k, v in {**filters, **expected}.items()):
+            matches.append((folder, meta))
+    if len(matches) > 1:
+        raise RuntimeError(f'Multiple compatible selections: {[str(x[0]) for x in matches]}')
+    if matches:
+        folder, meta = matches[0]
+        selected = pd.read_csv(folder / 'selected_documents.csv',
+                               dtype={'id': 'string', 'source_id': 'string'})
+        comparison = pd.read_csv(folder / 'threshold_comparison.csv')
+        selected.attrs['raid_metadata'] = meta
+        comparison.attrs['raid_metadata'] = meta
+        print('Loaded selection:', folder)
+        return selected, comparison
+    return select_sentence_dataset(
+        documents, sentences, min_sentences=min_sentences,
+        max_sentences=max_sentences, domain=domain, prompting=prompting,
+        attack=attack, decoding=decoding,
+        repetition_penalty=repetition_penalty, match_source_id=match_source_id,
+        sampling=sampling, n_bins=n_bins, seed=seed,
+        include_human=include_human, output_dir=output_dir, save=True,
+    )
+
+
+def original_first_n_lengths(documents, sentences, n):
+    """Word counts in the first n sentences for every eligible document."""
+    eligible = documents.loc[documents['n_sentences'].ge(n), ['id', 'source']]
+    first = sentences.loc[sentences['sentence_idx'].le(n),
+                          ['id', 'sentence_idx', 'n_words']]
+    aggregated = first.groupby('id', as_index=False).agg(
+        first_n_words=('n_words', 'sum'), counted=('sentence_idx', 'size'))
+    result = eligible.merge(aggregated, on='id', how='left', validate='one_to_one')
+    if not result['counted'].eq(n).all():
+        raise ValueError(f'Incomplete sentence records for n={n}')
+    return result.drop(columns='counted')
+
+
+def selection_diagnostics(documents, sentences, selections, *, plot=True):
+    """Validate selected counts and display original-vs-selected length KDEs.
+
+    selections: mapping of label -> (selected, comparison).
+    Figures are displayed only; nothing is saved.
+    Returns (count_table, distribution_table).
+    """
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from scipy.stats import wasserstein_distance
+    from matplotlib.lines import Line2D
+    from IPython.display import display
+
+    counts_rows, dist_rows = [], []
+    sources = [s for s in MODEL_ORDER if s in documents['source'].unique()]
+    llms = [s for s in sources if s != 'Human']
+    if not llms:
+        raise ValueError('No LLM sources')
+    prepared = []
+    for label, (selected, comparison) in selections.items():
+        meta = selected.attrs['raid_metadata']
+        n = int(meta['best_n_sentences'])
+        included = [s for s in sources if meta.get('include_human', True) or s != 'Human']
+        before = original_first_n_lengths(documents, sentences, n)
+        after = selected[['source', 'first_n_words']]
+        original_counts = before['source'].value_counts().reindex(included, fill_value=0)
+        selected_counts = after['source'].value_counts().reindex(included, fill_value=0)
+        target = min(int(original_counts[s]) for s in llms)
+        if selected['id'].duplicated().any() or not selected['n_sentences'].ge(n).all():
+            raise AssertionError(f'{label}: duplicate IDs or invalid sentence threshold')
+        if selected_counts.nunique() != 1:
+            raise AssertionError(f'{label}: unequal source counts: {selected_counts.to_dict()}')
+        if not meta['match_source_id']:
+            if not selected_counts.eq(target).all():
+                raise AssertionError(f'{label}: expected {target} per source')
+        else:
+            if selected['source_id'].isna().any() or selected.duplicated(['source_id', 'source']).any():
+                raise AssertionError(f'{label}: invalid source_id groups')
+            if not selected.groupby('source_id')['source'].nunique().eq(len(included)).all():
+                raise AssertionError(f'{label}: incomplete source_id groups')
+        for s in included:
+            original_values = before.loc[before['source'].eq(s), 'first_n_words'].dropna().to_numpy(float)
+            sampled_values = after.loc[after['source'].eq(s), 'first_n_words'].dropna().to_numpy(float)
+            counts_rows.append(dict(selection=label, source=s, best_n=n,
+                                    eligible=int(original_counts[s]), selected=int(selected_counts[s])))
+            dist_rows.append(dict(selection=label, source=s,
+                                  median_before=float(np.median(original_values)),
+                                  median_after=float(np.median(sampled_values)),
+                                  wasserstein=float(wasserstein_distance(original_values, sampled_values))))
+        prepared.append((label, n, before, after, included))
+        print(f'{label}: n={n}, {int(selected_counts.iloc[0]):,} documents per source')
+    count_table = pd.DataFrame(counts_rows)
+    distribution_table = pd.DataFrame(dist_rows)
+    display(count_table)
+    display(distribution_table.round(2))
+    if plot:
+        palette = dict(zip(sources, sns.color_palette('colorblind', n_colors=len(sources))))
+        # The original dataset is shared whenever the two selections use the same n.
+        # If best_n differs, separate original panels are necessary for a valid comparison.
+        original_by_n = {}
+        panels = []
+        for label, n, before, after, included in prepared:
+            if n not in original_by_n:
+                original_by_n[n] = (before, included)
+                panels.append((f'Original dataset', n, before, included))
+            panels.append((f'{label} dataset', n, after, included))
+
+        fig, axes = plt.subplots(1, len(panels), figsize=(5.3 * len(panels), 4.8),
+                                 squeeze=False, constrained_layout=True)
+        axes = axes.ravel()
+        # Use identical x limits across panels sharing the same sentence threshold.
+        xlimits = {}
+        for _, n, frame, _ in panels:
+            value = float(frame['first_n_words'].quantile(.995))
+            xlimits[n] = max(xlimits.get(n, 0.0), value)
+
+        for ax, (title, n, frame, included) in zip(axes, panels):
+            counts = frame['source'].value_counts().reindex(included, fill_value=0)
+            for source in included:
+                values = frame.loc[frame['source'].eq(source), 'first_n_words'].dropna()
+                if len(values) > 1 and values.nunique() > 1:
+                    sns.kdeplot(x=values, color=palette[source], bw_adjust=1.2,
+                                cut=0, clip=(0, None), linewidth=2, ax=ax,
+                                label=f'{source} (N={int(counts[source]):,})')
+            count_text = (f'N={int(counts.iloc[0]):,} per source'
+                          if counts.nunique() == 1 else
+                          f'N={int(counts.sum()):,} total')
+            ax.set(title=f'{title}\n{count_text} | n={n}',
+                   xlabel=f'Words in first {n} sentences', ylabel='Density')
+            ax.set_xlim(0, xlimits[n])
+            ax.grid(False, which='both', axis='both')
+            ax.minorticks_off()
+            ax.legend(title='Source (documents)', fontsize=8, title_fontsize=9,
+                      frameon=False, loc='best')
+        plt.show()
+    return count_table, distribution_table
+
+
+def load_or_analyze_sentence_lengths(domain, prompting=None, attack='null',
+                                     decoding='greedy', repetition_penalty='no',
+                                     *, show_progress=True):
+    """Reuse analysis CSVs in RESULTS_DIR, or parse and save them if absent."""
+    filters = dict(domain=_domain_key(domain), prompting=prompting, attack=attack,
+                   decoding=decoding, repetition_penalty=repetition_penalty)
+    folder = RESULTS_DIR / _run_name(filters)
+    required = ('documents.csv', 'sentences.csv', 'metadata.json')
+    if all((folder / name).is_file() for name in required):
+        with (folder / 'metadata.json').open(encoding='utf-8') as f:
+            meta = json.load(f)
+        if all(meta.get(k) == v for k, v in filters.items()):
+            documents = pd.read_csv(folder / 'documents.csv',
+                                    dtype={'id': 'string', 'source_id': 'string'})
+            sentences = pd.read_csv(folder / 'sentences.csv', dtype={'id': 'string'})
+            documents.attrs['raid_metadata'] = meta
+            sentences.attrs['raid_metadata'] = meta
+            print('Loaded sentence analysis:', folder)
+            return documents, sentences
+    return analyze_sentence_lengths(domain, prompting=prompting, attack=attack,
+                                    decoding=decoding,
+                                    repetition_penalty=repetition_penalty,
+                                    save=True, show_progress=show_progress)
