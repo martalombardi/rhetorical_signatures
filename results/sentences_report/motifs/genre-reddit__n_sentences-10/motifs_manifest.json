@@ -12,7 +12,7 @@
       "n_motifs": 61,
       "n_wildcard_motifs": 18,
       "n_grammar_templates": 61,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-ChatGPT"
     },
     {
@@ -22,7 +22,7 @@
       "n_motifs": 22,
       "n_wildcard_motifs": 1,
       "n_grammar_templates": 22,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Cohere"
     },
     {
@@ -32,7 +32,7 @@
       "n_motifs": 23,
       "n_wildcard_motifs": 1,
       "n_grammar_templates": 23,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Cohere_Chat"
     },
     {
@@ -42,7 +42,7 @@
       "n_motifs": 25,
       "n_wildcard_motifs": 3,
       "n_grammar_templates": 25,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-GPT-4"
     },
     {
@@ -52,7 +52,7 @@
       "n_motifs": 41,
       "n_wildcard_motifs": 5,
       "n_grammar_templates": 41,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Human"
     },
     {
@@ -62,7 +62,7 @@
       "n_motifs": 24,
       "n_wildcard_motifs": 1,
       "n_grammar_templates": 24,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Mistral_7B"
     },
     {
@@ -72,9 +72,9 @@
       "n_motifs": 57,
       "n_wildcard_motifs": 19,
       "n_grammar_templates": 57,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Mistral_7B_Chat"
     }
   ],
-  "generated_at": "2026-11-15T11:15:43.877817+00:00"
+  "generated_at": "2026-11-15T11:46:03.624922+00:00"
 }

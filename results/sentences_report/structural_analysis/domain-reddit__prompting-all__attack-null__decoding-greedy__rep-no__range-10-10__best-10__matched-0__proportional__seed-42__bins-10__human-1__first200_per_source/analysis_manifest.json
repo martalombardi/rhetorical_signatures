@@ -1,0 +1,54 @@
+{
+  "fingerprint": "3c54e53e1df05f1848cc6012e661ab79931ace6dbf231aa6c0c24479d6d53542",
+  "settings": {
+    "analysis_version": "4-clean-layout-horizontal-bootstrap",
+    "genre": "reddit",
+    "n_sentences": 10,
+    "sources": null,
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "human_source": "Human",
+    "delta_method": "independent",
+    "hex_gridsize": 14,
+    "prompting": null,
+    "attack": "null",
+    "decoding": "greedy",
+    "repetition_penalty": "no",
+    "matched": false,
+    "sampling": "proportional",
+    "tree_set": "first200_per_source",
+    "forest_inputs": [
+      {
+        "filename": "0001__genre-reddit__source-ChatGPT__n_sentences-10.xml",
+        "sha256": "86cf748abc12349c46d6dd77855e5364fd0867c0086c1a116c2e52e22547304c"
+      },
+      {
+        "filename": "0002__genre-reddit__source-Cohere__n_sentences-10.xml",
+        "sha256": "6792c88a9924f1cc52dfa65a1ea09103fe6844bdc3b061cea0d6f04f6dd26368"
+      },
+      {
+        "filename": "0003__genre-reddit__source-Cohere_Chat__n_sentences-10.xml",
+        "sha256": "841f71ab1184aaa23b248fe839e5d17bb13d3c66e3c398e07e7a0587d4c70d41"
+      },
+      {
+        "filename": "0004__genre-reddit__source-GPT-4__n_sentences-10.xml",
+        "sha256": "77ec9d9a73ec4e57c7e0c8ae5d47fa15b7d491c601ac28537f7d8545d2f49ae2"
+      },
+      {
+        "filename": "0005__genre-reddit__source-Human__n_sentences-10.xml",
+        "sha256": "2a744e8d9a2ae1551c45a3f93aeafcbdfaf1d5f4ed046e37148bed6ef25d4a80"
+      },
+      {
+        "filename": "0006__genre-reddit__source-Mistral_7B__n_sentences-10.xml",
+        "sha256": "7269558205c97cc80fad3729bef94d38abc1dc3f7818f3502d3c123394664115"
+      },
+      {
+        "filename": "0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10.xml",
+        "sha256": "236f29ee6084db8af369957ea44fb54570d6d34e0ce00db4218b1f9954e362ec"
+      }
+    ],
+    "metric_definition": "Root depth 0; count rhetorical nodes and EDU leaves; exclude DOC and forest wrappers"
+  },
+  "n_trees": 1400
+}

@@ -217,6 +217,23 @@ motif_extractor = load_project_module(
     MOTIF_SCRIPT,
 )
 
+
+# ------------------------------------------------------------
+# Load RST structural analysis module
+# ------------------------------------------------------------
+
+STRUCTURAL_DIR = CODE_DIR / "04_structural_analysis"
+
+STRUCTURAL_SCRIPT = (
+    STRUCTURAL_DIR / "01_inspect_rst_trees.py"
+)
+
+structural_inspector = load_project_module(
+    "structural_inspector",
+    STRUCTURAL_SCRIPT,
+)
+
+
 # ------------------------------------------------------------
 # TreeRePair binaries
 # ------------------------------------------------------------
@@ -416,3 +433,12 @@ print(f"Motif extraction script: {MOTIF_SCRIPT}")
 print(f"Motif results: {MOTIF_RESULTS_DIR}")
 print(f"TreeRePair binary: {TREEREPAIR_BINARY}")
 print(f"TreeDePair binary: {TREEDEPAIR_BINARY}")
+
+
+print("\nRST structural analysis")
+print("-" * 55)
+print(f"Bootstrap iterations: {STRUCTURAL_N_BOOT}")
+print(f"Confidence level: {STRUCTURAL_CONFIDENCE}")
+print(f"Delta method: {STRUCTURAL_DELTA_METHOD}")
+print(f"Rebuild: {STRUCTURAL_REBUILD}")
+print(f"Module: {STRUCTURAL_SCRIPT}")

@@ -154,3 +154,33 @@ MOTIF_CONTINUE_ON_ERROR = True
 
 # Show grammar symbols in compact motif tables
 MOTIF_SHOW_GRAMMAR_SYMBOLS = True
+
+
+# ------------------------------------------------------------
+# RST structural analysis
+# ------------------------------------------------------------
+
+STRUCTURAL_REBUILD = False
+
+# None = analyze all sources in the selected XML forests
+STRUCTURAL_SOURCES = None
+
+# Bootstrap settings
+STRUCTURAL_N_BOOT = 10000
+STRUCTURAL_CONFIDENCE = 0.95
+STRUCTURAL_SEED = 42
+
+# Human reference for LLM - Human differences
+STRUCTURAL_HUMAN_SOURCE = "Human"
+
+# Use independent bootstrap for unmatched datasets
+STRUCTURAL_DELTA_METHOD = "independent"
+
+# Hexagonal density resolution
+STRUCTURAL_HEX_GRIDSIZE = 14
+
+# Display figures in the notebook
+STRUCTURAL_SHOW = True
+
+# Distinguish limited-tree analysis from full-tree analysis
+STRUCTURAL_TREE_SET = "first200_per_source"
