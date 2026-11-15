@@ -136,6 +136,7 @@ def parse_dataset(
     retry_errors=False, limit=None, output_root=None, parser_factory=None,
     min_sentences=None, max_sentences=None,
     model="tchewik/isanlp_rst_v3", model_version="rstdt", rebuild=False,
+    _max_per_source=None,
 ):
     """Parse a saved selection, resuming successful documents and recording failures.
 
@@ -152,6 +153,8 @@ def parse_dataset(
         n_bins = prep.LENGTH_BINS
     if limit is not None and (not isinstance(limit, int) or limit < 0):
         raise ValueError("limit must be None or a non-negative integer")
+    if _max_per_source is not None and (not isinstance(_max_per_source, int) or _max_per_source < 1):
+        raise ValueError("_max_per_source must be a positive integer")
     if device not in ("auto", "cpu", "cuda"):
         raise ValueError("device must be 'auto', 'cpu' or 'cuda'")
 
@@ -238,6 +241,23 @@ def parse_dataset(
     pending = selected.loc[
         ~selected["id"].astype(str).isin(done | (set() if retry_errors else failed))
     ].copy()
+    if _max_per_source is not None:
+        from collections import Counter
+
+        # Preserve existing successful trees; never delete or reparse them.
+        existing_counts = Counter()
+        for record in _read_jsonl(trees_file):
+            existing_counts[str(record["source"])] += 1
+
+        # Select at most the missing quota per source, in dataset order.
+        quotas = {
+            str(src): max(0, _max_per_source - existing_counts[str(src)])
+            for src in selected["source"].dropna().unique()
+        }
+        pending = pending.loc[
+            pending.groupby("source", sort=False).cumcount()
+            < pending["source"].astype(str).map(quotas).fillna(0)
+        ].copy()
     if limit is not None:
         pending = pending.head(limit)
 
@@ -342,3 +362,46 @@ def load_or_parse_dataset(**kwargs):
         ]
 
     return output, trees
+
+def load_or_parse_first_per_source(*, max_per_source=200, **kwargs):
+    """Reuse cached trees, or parse only up to max_per_source per source.
+
+    Writes to the EXACT SAME canonical output directory as parse_dataset().
+    Does not truncate or overwrite an existing full trees.jsonl.
+    Returns (output_directory, limited_trees, limited_jsonl_path).
+    """
+    from collections import Counter
+
+    if not isinstance(max_per_source, int) or max_per_source < 1:
+        raise ValueError("max_per_source must be a positive integer")
+    if kwargs.get("rebuild", False):
+        raise ValueError("rebuild=True would delete existing trees; use rebuild=False")
+    if kwargs.get("limit") is not None:
+        raise ValueError("Do not set limit; max_per_source controls the per-source quota")
+
+    output = parse_dataset(
+        **kwargs, rebuild=False, _max_per_source=max_per_source
+    )
+
+    trees = []
+    counts = Counter()
+    for record in _read_jsonl(output / "trees.jsonl"):
+        source = str(record["source"])
+        if counts[source] < max_per_source:
+            trees.append(record)
+            counts[source] += 1
+
+    limited_path = output / f"trees_first{max_per_source}_per_source.jsonl"
+    temporary = limited_path.with_name(limited_path.name + ".tmp")
+    with temporary.open("w", encoding="utf-8") as stream:
+        for record in trees:
+            stream.write(json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n")
+    temporary.replace(limited_path)
+
+    print("RST trees selected per source:")
+    for name, count in sorted(counts.items()):
+        print(f"  {name}: {count}")
+    print(f"Total selected: {len(trees)}")
+    print(f"Full cache: {output / 'trees.jsonl'}")
+    print(f"Forest input: {limited_path}")
+    return output, trees, limited_path

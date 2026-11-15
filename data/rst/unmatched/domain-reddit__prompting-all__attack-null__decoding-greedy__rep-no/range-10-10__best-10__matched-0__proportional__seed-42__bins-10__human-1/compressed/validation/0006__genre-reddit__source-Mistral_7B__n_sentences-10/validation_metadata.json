@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "7269558205c97cc80fad3729bef94d38abc1dc3f7818f3502d3c123394664115",
+    "rep_sha256": "c5a0d4b6735aab524ce49270c35ddc6faef20b5166e02646152e294862eb9e60",
+    "treedepair_sha256": "708770964c1a294959abf9bf4e2492b000df22e6cb219f7359c2cd742fc3f38a"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "Mistral_7B",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-reddit__source-Mistral_7B__n_sentences-10.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-reddit__source-Mistral_7B__n_sentences-10/0006__genre-reddit__source-Mistral_7B__n_sentences-10.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0006__genre-reddit__source-Mistral_7B__n_sentences-10/0006__genre-reddit__source-Mistral_7B__n_sentences-10.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 200,
+    "reconstructed_trees": 200,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "31bbb9d58ebfe903017c14c032b01b54e17f04474926b44157cec2c7b062c4f2",
+  "updated_utc": "2026-11-15T11:15:42.762823+00:00"
+}

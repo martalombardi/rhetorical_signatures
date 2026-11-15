@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "86cf748abc12349c46d6dd77855e5364fd0867c0086c1a116c2e52e22547304c",
+    "rep_sha256": "00d1732abf484a5c4a6c4b9e4da2f0b98f458fea0e0469babf1faf8b891ddb98",
+    "treedepair_sha256": "708770964c1a294959abf9bf4e2492b000df22e6cb219f7359c2cd742fc3f38a"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "ChatGPT",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-reddit__source-ChatGPT__n_sentences-10.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-reddit__source-ChatGPT__n_sentences-10/0001__genre-reddit__source-ChatGPT__n_sentences-10.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0001__genre-reddit__source-ChatGPT__n_sentences-10/0001__genre-reddit__source-ChatGPT__n_sentences-10.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 200,
+    "reconstructed_trees": 200,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "a553e483a808dff900845be228b6d83bb762bf33364c87b173edd55dce08b6d7",
+  "updated_utc": "2026-11-15T11:15:41.775310+00:00"
+}

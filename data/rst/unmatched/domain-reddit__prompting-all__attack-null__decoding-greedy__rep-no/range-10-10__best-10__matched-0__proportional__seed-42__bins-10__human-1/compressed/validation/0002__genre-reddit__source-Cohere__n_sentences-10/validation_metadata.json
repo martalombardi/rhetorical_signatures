@@ -1,0 +1,27 @@
+{
+  "signature": {
+    "schema": 1,
+    "forest_sha256": "6792c88a9924f1cc52dfa65a1ea09103fe6844bdc3b061cea0d6f04f6dd26368",
+    "rep_sha256": "d9c98cfb613c078a73296f96dbd148664c15e06f5560bc6e4ea54a6ff11e3a27",
+    "treedepair_sha256": "708770964c1a294959abf9bf4e2492b000df22e6cb219f7359c2cd742fc3f38a"
+  },
+  "status": "VALIDATED",
+  "result": {
+    "source": "Cohere",
+    "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0002__genre-reddit__source-Cohere__n_sentences-10.xml",
+    "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0002__genre-reddit__source-Cohere__n_sentences-10/0002__genre-reddit__source-Cohere__n_sentences-10.rep",
+    "restored_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/validation/0002__genre-reddit__source-Cohere__n_sentences-10/0002__genre-reddit__source-Cohere__n_sentences-10.rep_uncompressed.xml",
+    "cached": false,
+    "returncode": 0,
+    "original_trees": 200,
+    "reconstructed_trees": 200,
+    "document_ids_match": true,
+    "structure_match": true,
+    "original_root": "forest",
+    "reconstructed_root": "forest",
+    "validated": true,
+    "status": "VALIDATED"
+  },
+  "restored_sha256": "f32b8d5433fec232f407cee3e8e4abd1429929bbc9dfa2c397a374616593d88a",
+  "updated_utc": "2026-11-15T11:15:41.914215+00:00"
+}

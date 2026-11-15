@@ -1,0 +1,13 @@
+{
+  "domain": "reddit",
+  "prompting": null,
+  "attack": "null",
+  "decoding": "greedy",
+  "repetition_penalty": "no",
+  "input_file": "/content/rhetorical_signatures/data/raw/raid/train.csv",
+  "n_documents": 12453,
+  "n_sentences_total": 174403,
+  "created_utc": "2026-11-15T11:02:28.957948+00:00",
+  "segmentation": "spacy en_core_web_sm dependency parser",
+  "word_count": "Python whitespace split"
+}

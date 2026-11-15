@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "77ec9d9a73ec4e57c7e0c8ae5d47fa15b7d491c601ac28537f7d8545d2f49ae2",
+    "grammar_sha256": "b5387ba3986d9bd372b72b40e2fba6dd969186243cec3655cd77a960fafd40f9",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "270f47b47b524f37a959c6604687f03567aa80311c81141a5b8260c72528a4d5",
+  "json_sha256": "1cc3528693da87f9661effa9d72585827c198210bb37a5165732a4d39fdbc67d",
+  "result": {
+    "dataset": "genre-reddit__n_sentences-10",
+    "source": "GPT-4",
+    "status": "COMPLETED",
+    "n_motifs": 25,
+    "n_wildcard_motifs": 3,
+    "n_grammar_templates": 25,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-GPT-4"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-reddit__source-GPT-4__n_sentences-10.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-reddit__source-GPT-4__n_sentences-10/0004__genre-reddit__source-GPT-4__n_sentences-10.reptxt",
+  "generated_at": "2026-11-15T11:15:43.261860+00:00"
+}

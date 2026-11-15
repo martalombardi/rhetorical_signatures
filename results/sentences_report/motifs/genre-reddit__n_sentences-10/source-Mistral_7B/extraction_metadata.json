@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "7269558205c97cc80fad3729bef94d38abc1dc3f7818f3502d3c123394664115",
+    "grammar_sha256": "71b748eed3be80acffd3d17ff5f3b1c2b41917084ad2a50cc28eeecb71193c33",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "02aaec10566d393d7bf29bbede65a7a3850f8de6eda02a24889be531a1745680",
+  "json_sha256": "27331338f758bb4f6b8a9943d578df1d82879f21961306c08bd747349853984a",
+  "result": {
+    "dataset": "genre-reddit__n_sentences-10",
+    "source": "Mistral_7B",
+    "status": "COMPLETED",
+    "n_motifs": 24,
+    "n_wildcard_motifs": 1,
+    "n_grammar_templates": 24,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Mistral_7B"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-reddit__source-Mistral_7B__n_sentences-10.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-reddit__source-Mistral_7B__n_sentences-10/0006__genre-reddit__source-Mistral_7B__n_sentences-10.reptxt",
+  "generated_at": "2026-11-15T11:15:43.783358+00:00"
+}

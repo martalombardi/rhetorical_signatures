@@ -1,0 +1,18 @@
+{
+  "dataset_path": "/content/rhetorical_signatures/data/filtered/sentences/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1",
+  "selection_sha256": "6e456a74326498590bc7a71dba37e41f0a63b3a4daf7ba0cd69860b8ca236e0f",
+  "run": "domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no",
+  "n_sentences": 10,
+  "matched": false,
+  "sampling": "proportional",
+  "seed": 42,
+  "n_bins": 10,
+  "include_human": true,
+  "parser_model": "tchewik/isanlp_rst_v3",
+  "parser_version": "rstdt",
+  "total_selected": 4144,
+  "successful_ids": 1400,
+  "error_ids": 0,
+  "output_directory": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1",
+  "updated_utc": "2026-11-15T11:15:38.548287+00:00"
+}

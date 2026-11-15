@@ -1,0 +1,101 @@
+{
+  "created_utc": "2026-11-15T11:15:41.617007+00:00",
+  "forests_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests",
+  "output_dir": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed",
+  "selection": {
+    "genre": "reddit",
+    "n_sentences": 10,
+    "sources": null
+  },
+  "options": {
+    "textual": true,
+    "optimize": "filesize",
+    "max_rank": null
+  },
+  "results": [
+    {
+      "source": "ChatGPT",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-reddit__source-ChatGPT__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-reddit__source-ChatGPT__n_sentences-10/0001__genre-reddit__source-ChatGPT__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0001__genre-reddit__source-ChatGPT__n_sentences-10/0001__genre-reddit__source-ChatGPT__n_sentences-10.reptxt",
+      "rep_bytes": 5825,
+      "reptxt_bytes": 25451,
+      "forest_sha256": "86cf748abc12349c46d6dd77855e5364fd0867c0086c1a116c2e52e22547304c"
+    },
+    {
+      "source": "Cohere",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0002__genre-reddit__source-Cohere__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0002__genre-reddit__source-Cohere__n_sentences-10/0002__genre-reddit__source-Cohere__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0002__genre-reddit__source-Cohere__n_sentences-10/0002__genre-reddit__source-Cohere__n_sentences-10.reptxt",
+      "rep_bytes": 6461,
+      "reptxt_bytes": 28578,
+      "forest_sha256": "6792c88a9924f1cc52dfa65a1ea09103fe6844bdc3b061cea0d6f04f6dd26368"
+    },
+    {
+      "source": "Cohere_Chat",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-reddit__source-Cohere_Chat__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-reddit__source-Cohere_Chat__n_sentences-10/0003__genre-reddit__source-Cohere_Chat__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-reddit__source-Cohere_Chat__n_sentences-10/0003__genre-reddit__source-Cohere_Chat__n_sentences-10.reptxt",
+      "rep_bytes": 6324,
+      "reptxt_bytes": 27767,
+      "forest_sha256": "841f71ab1184aaa23b248fe839e5d17bb13d3c66e3c398e07e7a0587d4c70d41"
+    },
+    {
+      "source": "GPT-4",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-reddit__source-GPT-4__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-reddit__source-GPT-4__n_sentences-10/0004__genre-reddit__source-GPT-4__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0004__genre-reddit__source-GPT-4__n_sentences-10/0004__genre-reddit__source-GPT-4__n_sentences-10.reptxt",
+      "rep_bytes": 5782,
+      "reptxt_bytes": 25114,
+      "forest_sha256": "77ec9d9a73ec4e57c7e0c8ae5d47fa15b7d491c601ac28537f7d8545d2f49ae2"
+    },
+    {
+      "source": "Human",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-reddit__source-Human__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0005__genre-reddit__source-Human__n_sentences-10/0005__genre-reddit__source-Human__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0005__genre-reddit__source-Human__n_sentences-10/0005__genre-reddit__source-Human__n_sentences-10.reptxt",
+      "rep_bytes": 6356,
+      "reptxt_bytes": 28001,
+      "forest_sha256": "2a744e8d9a2ae1551c45a3f93aeafcbdfaf1d5f4ed046e37148bed6ef25d4a80"
+    },
+    {
+      "source": "Mistral_7B",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-reddit__source-Mistral_7B__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-reddit__source-Mistral_7B__n_sentences-10/0006__genre-reddit__source-Mistral_7B__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-reddit__source-Mistral_7B__n_sentences-10/0006__genre-reddit__source-Mistral_7B__n_sentences-10.reptxt",
+      "rep_bytes": 4261,
+      "reptxt_bytes": 17955,
+      "forest_sha256": "7269558205c97cc80fad3729bef94d38abc1dc3f7818f3502d3c123394664115"
+    },
+    {
+      "source": "Mistral_7B_Chat",
+      "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10.xml",
+      "status": "COMPLETED_UNVALIDATED",
+      "returncode": 0,
+      "cached": false,
+      "rep_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10/0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10.rep",
+      "reptxt_file": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10/0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10.reptxt",
+      "rep_bytes": 5873,
+      "reptxt_bytes": 25629,
+      "forest_sha256": "236f29ee6084db8af369957ea44fb54570d6d34e0ce00db4218b1f9954e362ec"
+    }
+  ]
+}

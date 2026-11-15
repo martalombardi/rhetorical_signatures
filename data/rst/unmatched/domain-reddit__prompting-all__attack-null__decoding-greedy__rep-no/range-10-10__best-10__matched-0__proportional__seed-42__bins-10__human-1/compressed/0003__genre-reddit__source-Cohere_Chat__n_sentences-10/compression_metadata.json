@@ -1,0 +1,23 @@
+{
+  "signature": {
+    "forest_sha256": "841f71ab1184aaa23b248fe839e5d17bb13d3c66e3c398e07e7a0587d4c70d41",
+    "binary_sha256": "b7700f1dd436f6ecfa1af77c76fda760d090ac53a2ff13fc2097ecd7dce14c6f",
+    "options": {
+      "textual": true,
+      "optimize": "filesize",
+      "max_rank": null
+    }
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-reddit__source-Cohere_Chat__n_sentences-10.xml",
+  "binary": "/content/rhetorical_signatures/code/03_treerepair/vendor/TreeRePair/TreeRePair/TreeRePair",
+  "command": [
+    "/content/rhetorical_signatures/code/03_treerepair/vendor/TreeRePair/TreeRePair/TreeRePair",
+    "-optimize",
+    "filesize",
+    "-textual",
+    "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0003__genre-reddit__source-Cohere_Chat__n_sentences-10/_staging/0003__genre-reddit__source-Cohere_Chat__n_sentences-10.xml"
+  ],
+  "status": "COMPLETED_UNVALIDATED",
+  "returncode": 0,
+  "updated_utc": "2026-11-15T11:15:41.506963+00:00"
+}
