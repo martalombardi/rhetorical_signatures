@@ -1,7 +1,7 @@
 {
   "signature": {
     "forest_sha256": "86cf748abc12349c46d6dd77855e5364fd0867c0086c1a116c2e52e22547304c",
-    "binary_sha256": "b7700f1dd436f6ecfa1af77c76fda760d090ac53a2ff13fc2097ecd7dce14c6f",
+    "binary_sha256": "953f2a4df313ad7d267067486c2d1c58426f22db8be3cc5a0585fe45b66f938d",
     "options": {
       "textual": true,
       "optimize": "filesize",
@@ -19,5 +19,5 @@
   ],
   "status": "COMPLETED_UNVALIDATED",
   "returncode": 0,
-  "updated_utc": "2026-11-15T12:32:49.576588+00:00"
+  "updated_utc": "2026-11-15T15:47:07.132135+00:00"
 }

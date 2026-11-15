@@ -1,7 +1,7 @@
 {
-  "fingerprint": "0e0bea60ebd8bcb87f48ed6ca4be18d1eb13e51047e6b10a87556e06f08c32f7",
+  "fingerprint": "4923a3a265d46f11b63181d22efab4b816273c1f39522a636a8d5dd408a682fd",
   "settings": {
-    "version": "1.4-compact-rank-scatter-js-tables-only",
+    "version": "1.5-rank-absence-categories-average-ties",
     "genre": "reddit",
     "n_sentences": 10,
     "sources": [

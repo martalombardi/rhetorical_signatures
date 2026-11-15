@@ -8,7 +8,7 @@ the source of project-wide paths and model constants.
 # RAID experiment filters
 # ------------------------------------------------------------
 
-DOMAIN = "abstracts"
+DOMAIN = "reddit"
 PROMPTING = None
 ATTACK = "null"
 DECODING = "greedy"
@@ -28,7 +28,7 @@ SENTENCE_ANALYSIS_SHOW_PROGRESS = True
 # Dataset selection
 # ------------------------------------------------------------
 
-MIN_SENTENCES = 6
+MIN_SENTENCES = 10
 MAX_SENTENCES = 10
 
 # Preserve each source's original length distribution.
@@ -45,7 +45,7 @@ INCLUDE_HUMAN = True
 
 # Exact number of sentences per document to parse.
 # Independent of the preprocessing selection range.
-N_SENTENCES = 6
+N_SENTENCES = 10
 
 # Which selected dataset to parse
 RST_MATCHED = False
