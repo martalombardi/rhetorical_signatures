@@ -1,0 +1,13 @@
+{
+  "fingerprint": "beff9ab4f210c87101a95c04f46407f78c7256cd44930debc201d0638f0e86f1",
+  "settings": {
+    "version": "1.0-document-diversity-bootstrap",
+    "input_hash": "e217e5142eafe14ec9a729c7b813a155495b167cb1a068d7a0036f5b5b851efc",
+    "human_source": "Human",
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "genre": "abstracts",
+    "n_sentences": 6
+  }
+}

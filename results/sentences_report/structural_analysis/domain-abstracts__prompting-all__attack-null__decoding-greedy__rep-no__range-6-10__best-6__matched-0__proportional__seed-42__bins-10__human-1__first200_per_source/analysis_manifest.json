@@ -1,0 +1,54 @@
+{
+  "fingerprint": "1ebb2b3ee282aa4e620dcb3a6233e7e9374f66b04c48891a99e9fb2c80ae57fd",
+  "settings": {
+    "analysis_version": "4-clean-layout-horizontal-bootstrap",
+    "genre": "abstracts",
+    "n_sentences": 6,
+    "sources": null,
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "human_source": "Human",
+    "delta_method": "independent",
+    "hex_gridsize": 14,
+    "prompting": null,
+    "attack": "null",
+    "decoding": "greedy",
+    "repetition_penalty": "no",
+    "matched": false,
+    "sampling": "proportional",
+    "tree_set": "first200_per_source",
+    "forest_inputs": [
+      {
+        "filename": "0001__genre-abstracts__source-ChatGPT__n_sentences-6.xml",
+        "sha256": "c7526cc8f6ad7ff53e48a99062bf40f15aac5755ab2d068d5012f3b818b60cf9"
+      },
+      {
+        "filename": "0002__genre-abstracts__source-Cohere__n_sentences-6.xml",
+        "sha256": "6af51c90d53761b9969ee827918efebb1539fedaf11b4895e590b56348c101ec"
+      },
+      {
+        "filename": "0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.xml",
+        "sha256": "44b6d184de07655f8f6a7cac89fb69fbb0d11dfb1dab314df93d2d763495ed2b"
+      },
+      {
+        "filename": "0004__genre-abstracts__source-GPT-4__n_sentences-6.xml",
+        "sha256": "d51cc455ae6b7384066191a553990bae182e867d8e4573a92d5ccee7805c1d20"
+      },
+      {
+        "filename": "0005__genre-abstracts__source-Human__n_sentences-6.xml",
+        "sha256": "10c3d8dbc6fe219381d7779be4fb21eb6ddbe0784b26ce6066adbcc8134cc653"
+      },
+      {
+        "filename": "0006__genre-abstracts__source-Mistral_7B__n_sentences-6.xml",
+        "sha256": "1b5176170f213c7010e5137950e4d1e7595a7a6c252dcc2bd69ecff55d7533e7"
+      },
+      {
+        "filename": "0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.xml",
+        "sha256": "56bdba5ac90461a1d05df29a7a3c859c0890c356f4810ee97d20d50a645b0337"
+      }
+    ],
+    "metric_definition": "Root depth 0; count rhetorical nodes and EDU leaves; exclude DOC and forest wrappers"
+  },
+  "n_trees": 2947
+}

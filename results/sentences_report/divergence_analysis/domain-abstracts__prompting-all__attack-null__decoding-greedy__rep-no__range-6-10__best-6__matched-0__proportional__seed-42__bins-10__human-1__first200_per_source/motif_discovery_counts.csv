@@ -1,0 +1,22 @@
+source,motif_type,n_motifs
+Human,With wildcard,43
+Human,Without wildcard,60
+Human,Total,103
+ChatGPT,With wildcard,54
+ChatGPT,Without wildcard,60
+ChatGPT,Total,114
+Cohere,With wildcard,62
+Cohere,Without wildcard,67
+Cohere,Total,129
+Cohere_Chat,With wildcard,28
+Cohere_Chat,Without wildcard,50
+Cohere_Chat,Total,78
+GPT-4,With wildcard,45
+GPT-4,Without wildcard,58
+GPT-4,Total,103
+Mistral_7B,With wildcard,63
+Mistral_7B,Without wildcard,59
+Mistral_7B,Total,122
+Mistral_7B_Chat,With wildcard,58
+Mistral_7B_Chat,Without wildcard,56
+Mistral_7B_Chat,Total,114

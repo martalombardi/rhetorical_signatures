@@ -1,0 +1,97 @@
+{
+  "fingerprint": "8e38684413d311ce90d4c4484a4f1174fe3baf1e187b350f33b65c147a6f1007",
+  "settings": {
+    "version": "1.5-rank-absence-categories-average-ties",
+    "genre": "abstracts",
+    "n_sentences": 6,
+    "sources": [
+      "ChatGPT",
+      "Cohere",
+      "Cohere_Chat",
+      "GPT-4",
+      "Human",
+      "Mistral_7B",
+      "Mistral_7B_Chat"
+    ],
+    "prompting": null,
+    "attack": "null",
+    "decoding": "greedy",
+    "repetition_penalty": "no",
+    "matched": false,
+    "sampling": "proportional",
+    "tree_set": "first200_per_source",
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "top_k": 100,
+    "human_source": "Human",
+    "inputs": [
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-ChatGPT/motifs.csv",
+        "a022ca87a889632965382a73710262de6a8109e6ee9aca8753e377e021ba3959"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Cohere/motifs.csv",
+        "e637720738e6484ca68dd6c9895e42dfe06abfce4a5e1f82a2ab4fb85326d687"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Cohere_Chat/motifs.csv",
+        "87c3cfdb632214cfbef92b23933b4bff1ec653955f4d531b7ff660d223bd49c3"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-GPT-4/motifs.csv",
+        "a41cb9b89742161be60a00c43083b0744876909938df61ff20908802b0cb6a49"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Human/motifs.csv",
+        "8eec9ab8c4a6b5db6d35359e71e8aad9debbb82225c7640b3d2d5eee70c33124"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B/motifs.csv",
+        "b2e8be2293db114948083452803103a08f9dd994aeec281d766f72b5703a6104"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-abstracts__n_sentences-6/source-Mistral_7B_Chat/motifs.csv",
+        "48f0c200a3f3410bdaa4eb65b186a9a064b0048474054888994d1f4c39870ede"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-abstracts__source-ChatGPT__n_sentences-6.xml",
+        "c7526cc8f6ad7ff53e48a99062bf40f15aac5755ab2d068d5012f3b818b60cf9"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0002__genre-abstracts__source-Cohere__n_sentences-6.xml",
+        "6af51c90d53761b9969ee827918efebb1539fedaf11b4895e590b56348c101ec"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-abstracts__source-Cohere_Chat__n_sentences-6.xml",
+        "44b6d184de07655f8f6a7cac89fb69fbb0d11dfb1dab314df93d2d763495ed2b"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-abstracts__source-GPT-4__n_sentences-6.xml",
+        "d51cc455ae6b7384066191a553990bae182e867d8e4573a92d5ccee7805c1d20"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-abstracts__source-Human__n_sentences-6.xml",
+        "10c3d8dbc6fe219381d7779be4fb21eb6ddbe0784b26ce6066adbcc8134cc653"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-abstracts__source-Mistral_7B__n_sentences-6.xml",
+        "1b5176170f213c7010e5137950e4d1e7595a7a6c252dcc2bd69ecff55d7533e7"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-abstracts__prompting-all__attack-null__decoding-greedy__rep-no/range-6-10__best-6__matched-0__proportional__seed-42__bins-10__human-1/forests/0007__genre-abstracts__source-Mistral_7B_Chat__n_sentences-6.xml",
+        "56bdba5ac90461a1d05df29a7a3c859c0890c356f4810ee97d20d50a645b0337"
+      ]
+    ]
+  },
+  "n_motifs": 137,
+  "n_documents": {
+    "Human": 421,
+    "ChatGPT": 421,
+    "Cohere": 421,
+    "Cohere_Chat": 421,
+    "GPT-4": 421,
+    "Mistral_7B": 421,
+    "Mistral_7B_Chat": 421
+  }
+}

@@ -1,0 +1,2 @@
+version,genre,n_sentences,sources,prompting,attack,decoding,repetition_penalty,matched,sampling,tree_set,n_boot,confidence,seed,top_k,human_source
+1.5-rank-absence-categories-average-ties,abstracts,6,"[""ChatGPT"", ""Cohere"", ""Cohere_Chat"", ""GPT-4"", ""Human"", ""Mistral_7B"", ""Mistral_7B_Chat""]",,null,greedy,no,False,proportional,first200_per_source,10000,0.95,42,100,Human
