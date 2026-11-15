@@ -12,7 +12,7 @@
       "n_motifs": 82,
       "n_wildcard_motifs": 29,
       "n_grammar_templates": 82,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-ChatGPT"
     },
     {
@@ -22,7 +22,7 @@
       "n_motifs": 78,
       "n_wildcard_motifs": 26,
       "n_grammar_templates": 78,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Cohere"
     },
     {
@@ -32,7 +32,7 @@
       "n_motifs": 44,
       "n_wildcard_motifs": 8,
       "n_grammar_templates": 44,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Cohere_Chat"
     },
     {
@@ -42,7 +42,7 @@
       "n_motifs": 33,
       "n_wildcard_motifs": 3,
       "n_grammar_templates": 33,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-GPT-4"
     },
     {
@@ -52,9 +52,9 @@
       "n_motifs": 49,
       "n_wildcard_motifs": 9,
       "n_grammar_templates": 49,
-      "cached": false,
+      "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Human"
     }
   ],
-  "generated_at": "2026-11-14T20:24:40.838219+00:00"
+  "generated_at": "2026-11-15T14:46:38.018393+00:00"
 }

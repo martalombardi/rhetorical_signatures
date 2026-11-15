@@ -1,0 +1,13 @@
+{
+  "fingerprint": "605328993de1c352396502ad9b1858d19f7f7852a01ac52450c26c0956bf74c1",
+  "settings": {
+    "version": "1.0-document-diversity-bootstrap",
+    "input_hash": "c386bd0c94bd4d43ab56eaf1e577fe04ab2b2bfb99da45f510f457430439fa04",
+    "human_source": "Human",
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "genre": "news",
+    "n_sentences": 10
+  }
+}

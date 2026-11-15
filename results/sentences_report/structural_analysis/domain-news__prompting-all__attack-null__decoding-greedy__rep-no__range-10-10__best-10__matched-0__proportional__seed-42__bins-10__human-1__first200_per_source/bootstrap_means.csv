@@ -1,0 +1,11 @@
+source,metric,n,mean,ci_low,ci_high,confidence
+ChatGPT,depth,200,7.795,7.655,7.93,0.95
+ChatGPT,max_breadth,200,11.75,11.36,12.16,0.95
+Cohere,depth,200,8.33,8.145,8.51,0.95
+Cohere,max_breadth,200,13.09,12.71,13.48,0.95
+Cohere_Chat,depth,200,8.11,7.925,8.3,0.95
+Cohere_Chat,max_breadth,200,12.17,11.75,12.59,0.95
+GPT-4,depth,200,7.79,7.63,7.955,0.95
+GPT-4,max_breadth,200,11.9,11.51,12.3,0.95
+Human,depth,200,8.255,8.065,8.46,0.95
+Human,max_breadth,200,12.46,12.04,12.89,0.95

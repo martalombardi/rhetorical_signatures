@@ -8,7 +8,7 @@ the source of project-wide paths and model constants.
 # RAID experiment filters
 # ------------------------------------------------------------
 
-DOMAIN = "reddit"
+DOMAIN = "news"
 PROMPTING = None
 ATTACK = "null"
 DECODING = "greedy"

@@ -1,0 +1,2 @@
+analysis_version,genre,n_sentences,sources,n_boot,confidence,seed,human_source,delta_method,hex_gridsize,prompting,attack,decoding,repetition_penalty,matched,sampling,tree_set,metric_definition,n_trees
+4-clean-layout-horizontal-bootstrap,news,10,"ChatGPT,Cohere,Cohere_Chat,GPT-4,Human",10000,0.95,42,Human,independent,14,,null,greedy,no,False,proportional,first200_per_source,Root depth 0; count rhetorical nodes and EDU leaves; exclude DOC and forest wrappers,1000

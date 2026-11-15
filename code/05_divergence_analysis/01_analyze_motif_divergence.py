@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-VERSION = '1.4-compact-rank-scatter-js-tables-only'
+VERSION = '1.5-rank-absence-categories-average-ties'
 
 
 def _safe(x):
@@ -345,7 +345,7 @@ def analyze_motif_divergence(
     for s in source_order:
         sub = source_freq[source_freq.source == s].sort_values(['frequency', 'motif_id'], ascending=[False, True])
         sub = sub[sub.frequency > 0].copy()
-        sub['rank'] = np.arange(1, len(sub)+1)
+        sub['rank'] = sub['frequency'].rank(method='average', ascending=False)
         rank_rows.append(sub)
     rank_data = pd.concat(rank_rows, ignore_index=True) if rank_rows else pd.DataFrame()
 
@@ -428,9 +428,10 @@ def analyze_motif_divergence(
     ax.grid(alpha=.2); ax.legend(frameon=False); ax.set_title(title)
     _save(fig, figures, '03_rank_frequency', show)
 
-    # 04 — Compact small-multiples figure, one panel per Human–LLM pair.
-    # Each point is the SAME globally identified motif in the two rankings.
-    # Only motifs with positive frequencies in both sources have ranks.
+    # 04 — Compact rank comparisons, including motifs exclusive to either source.
+    # Zero frequency has no observed rank; display at K+1 as an explicit
+    # absence sentinel, NOT as an empirical rank. Equal frequencies share
+    # their average rank. Motifs absent in both are excluded.
     rank_maps = {
         source: dict(zip(
             rank_data.loc[rank_data.source == source, 'motif_id'],
@@ -444,58 +445,77 @@ def analyze_motif_divergence(
         dtype=float
     )
     other_sources = [s for s in source_order if s != human_source]
-    scatter_panels = []
-    rank_scatter_rows = []
-    max_rank = 1
+    absent_rank = len(vocabulary) + 1
+    scatter_panels, rank_scatter_rows = [], []
     for source in other_sources:
         llm_rank = np.array(
             [rank_maps[source].get(m, np.nan) for m in all_ids],
             dtype=float
         )
-        shared = np.isfinite(human_rank) & np.isfinite(llm_rank)
-        x, y = human_rank[shared], llm_rank[shared]
-        if len(x):
-            max_rank = max(max_rank, int(np.max(x)), int(np.max(y)))
-        scatter_panels.append((source, x, y))
-        for motif_id, rank_h, rank_llm in zip(all_ids[shared], x, y):
-            rank_scatter_rows.append({
-                'source': source, 'motif_id': motif_id,
-                'human_rank': int(rank_h), 'source_rank': int(rank_llm)
-            })
+        human_present = np.isfinite(human_rank)
+        llm_present = np.isfinite(llm_rank)
+        categories = {
+            'shared': human_present & llm_present,
+            'human_only': human_present & ~llm_present,
+            'llm_only': ~human_present & llm_present,
+        }
+        scatter_panels.append((source, llm_rank, categories))
+        for category, mask in categories.items():
+            for motif_id, rh, rl in zip(all_ids[mask], human_rank[mask], llm_rank[mask]):
+                rank_scatter_rows.append({
+                    'source': source, 'motif_id': motif_id,
+                    'category': category,
+                    'human_rank': float(rh) if np.isfinite(rh) else np.nan,
+                    'source_rank': float(rl) if np.isfinite(rl) else np.nan,
+                    'plot_human_rank': float(rh) if np.isfinite(rh) else absent_rank,
+                    'plot_source_rank': float(rl) if np.isfinite(rl) else absent_rank,
+                })
 
     ncols = min(3, len(other_sources))
     nrows = int(np.ceil(len(other_sources) / ncols))
     fig, axes = plt.subplots(
-        nrows, ncols, figsize=(4.2 * ncols, 4.0 * nrows + 0.55),
+        nrows, ncols, figsize=(4.2 * ncols, 4.0 * nrows + 0.6),
         sharex=True, sharey=True, squeeze=False,
         layout='constrained'
     )
-    lim = max(2, max_rank * 1.07)
-    for ax, (source, x, y) in zip(axes.flat, scatter_panels):
-        ax.scatter(x, y, s=12, alpha=.35, color=palette[source],
-                   edgecolors='none', rasterized=True)
-        ax.plot([1, lim], [1, lim], '--', color='0.45',
-                linewidth=1, zorder=1)
+    lim = max(2, absent_rank * 1.15)
+    for ax, (source, llm_rank, categories) in zip(axes.flat, scatter_panels):
+        ax.plot([1, absent_rank], [1, absent_rank], '--', color='0.55',
+                linewidth=.9, zorder=1)
+        ax.axhline(absent_rank, ls=':', lw=.8, color='0.65', zorder=1)
+        ax.axvline(absent_rank, ls=':', lw=.8, color='0.65', zorder=1)
+        for category, color, legend in (
+            ('shared', '#888888', 'Shared'),
+            ('human_only', '#2878B5', 'Human only'),
+            ('llm_only', palette[source], 'LLM only'),
+        ):
+            mask = categories[category]
+            x = np.where(np.isfinite(human_rank[mask]), human_rank[mask], absent_rank)
+            y = np.where(np.isfinite(llm_rank[mask]), llm_rank[mask], absent_rank)
+            ax.scatter(x, y, s=14, alpha=.65 if category != 'shared' else .3,
+                       color=color, edgecolors='none', rasterized=True,
+                       label=legend, zorder=3 if category != 'shared' else 2)
         ax.set_xscale('log')
         ax.set_yscale('log')
         ax.set_xlim(1, lim)
         ax.set_ylim(1, lim)
         ax.set_aspect('equal', adjustable='box')
         ax.set_title(source, fontsize=10, fontweight='semibold')
-        ax.grid(alpha=.16)
-        if not len(x):
-            ax.text(.5, .5, 'No shared motifs', transform=ax.transAxes,
-                    ha='center', va='center', fontsize=9)
+        ax.grid(alpha=.12)
     for ax in list(axes.flat)[len(scatter_panels):]:
         ax.set_visible(False)
-    fig.supxlabel(f'Motif rank in {human_source}')
-    fig.supylabel('Motif rank in LLM')
+    handles, labels = axes.flat[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='lower center', ncol=3,
+               bbox_to_anchor=(.5, -.005), frameon=False, fontsize=9)
+    fig.supxlabel(f'Motif rank in {human_source} (K+1 = absent)')
+    fig.supylabel('Motif rank in LLM (K+1 = absent)')
     fig.suptitle(title, fontsize=12, fontweight='semibold')
     _save(fig, figures, '04_rank_scatter_grid', show)
 
     rank_scatter_df = pd.DataFrame(
         rank_scatter_rows,
-        columns=['source', 'motif_id', 'human_rank', 'source_rank']
+        columns=['source', 'motif_id', 'category', 'human_rank',
+                 'source_rank', 'plot_human_rank', 'plot_source_rank']
     )
 
     tables = dict(motif_vocabulary=vocab_df, motif_discovery_counts=discovery,

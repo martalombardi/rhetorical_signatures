@@ -1,0 +1,46 @@
+{
+  "fingerprint": "6804dd94652d4bb9d0ba56508b7bbf52134c9feb4515a466eb1f54bd41ec9486",
+  "settings": {
+    "analysis_version": "4-clean-layout-horizontal-bootstrap",
+    "genre": "news",
+    "n_sentences": 10,
+    "sources": null,
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "human_source": "Human",
+    "delta_method": "independent",
+    "hex_gridsize": 14,
+    "prompting": null,
+    "attack": "null",
+    "decoding": "greedy",
+    "repetition_penalty": "no",
+    "matched": false,
+    "sampling": "proportional",
+    "tree_set": "first200_per_source",
+    "forest_inputs": [
+      {
+        "filename": "0001__genre-news__source-ChatGPT__n_sentences-10.xml",
+        "sha256": "2000a230bd8a96d83c94c2c86725eae02678862adb9bb99265ca81bd20abb3ba"
+      },
+      {
+        "filename": "0002__genre-news__source-Cohere__n_sentences-10.xml",
+        "sha256": "03ff384d28aca199a0464eb8e9bf0e404bc62a0fd9e1aefad45b3bbe7e0d22a8"
+      },
+      {
+        "filename": "0003__genre-news__source-Cohere_Chat__n_sentences-10.xml",
+        "sha256": "f3e886a8eaeb6b9f19f8e6c4c0f58c2f1d90f872dbd229787adbe7927a769a13"
+      },
+      {
+        "filename": "0004__genre-news__source-GPT-4__n_sentences-10.xml",
+        "sha256": "a893f3dafe7b2874a3bfb617cd6332346989e4baac3bc24e394c0059913eb42f"
+      },
+      {
+        "filename": "0005__genre-news__source-Human__n_sentences-10.xml",
+        "sha256": "18a101083acfa89267c788bbb10e93c8244332d6d0a77c52125d19a3ee061c49"
+      }
+    ],
+    "metric_definition": "Root depth 0; count rhetorical nodes and EDU leaves; exclude DOC and forest wrappers"
+  },
+  "n_trees": 1000
+}
