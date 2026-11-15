@@ -1,5 +1,5 @@
 {
-  "fingerprint": "6804dd94652d4bb9d0ba56508b7bbf52134c9feb4515a466eb1f54bd41ec9486",
+  "fingerprint": "1fe6fed6eb27df050815f641a69a969bb21e324ba67d6e402347fe60052c2127",
   "settings": {
     "analysis_version": "4-clean-layout-horizontal-bootstrap",
     "genre": "news",
@@ -38,9 +38,17 @@
       {
         "filename": "0005__genre-news__source-Human__n_sentences-10.xml",
         "sha256": "18a101083acfa89267c788bbb10e93c8244332d6d0a77c52125d19a3ee061c49"
+      },
+      {
+        "filename": "0006__genre-news__source-Mistral_7B__n_sentences-10.xml",
+        "sha256": "d308a67f17ed592843112f9ae7f8ee92e4d2f97a7bdd6a9a1d27f1d1389206a7"
+      },
+      {
+        "filename": "0007__genre-news__source-Mistral_7B_Chat__n_sentences-10.xml",
+        "sha256": "eeca659bd22a733f4c1722b40ab08c86492acc2698bc8cbea1f7cd99689b5014"
       }
     ],
     "metric_definition": "Root depth 0; count rhetorical nodes and EDU leaves; exclude DOC and forest wrappers"
   },
-  "n_trees": 1000
+  "n_trees": 1400
 }

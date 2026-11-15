@@ -9,3 +9,7 @@ GPT-4,depth,200,7.79,7.63,7.955,0.95
 GPT-4,max_breadth,200,11.9,11.51,12.3,0.95
 Human,depth,200,8.255,8.065,8.46,0.95
 Human,max_breadth,200,12.46,12.04,12.89,0.95
+Mistral_7B,depth,200,7.44,7.27,7.610124999999998,0.95
+Mistral_7B,max_breadth,200,11.28,10.88,11.67,0.95
+Mistral_7B_Chat,depth,200,7.965,7.8,8.13,0.95
+Mistral_7B_Chat,max_breadth,200,12.35,11.92,12.78,0.95

@@ -14,3 +14,9 @@ Cohere_Chat,Total,44
 GPT-4,With wildcard,3
 GPT-4,Without wildcard,30
 GPT-4,Total,33
+Mistral_7B,With wildcard,36
+Mistral_7B,Without wildcard,59
+Mistral_7B,Total,95
+Mistral_7B_Chat,With wildcard,1
+Mistral_7B_Chat,Without wildcard,25
+Mistral_7B_Chat,Total,26

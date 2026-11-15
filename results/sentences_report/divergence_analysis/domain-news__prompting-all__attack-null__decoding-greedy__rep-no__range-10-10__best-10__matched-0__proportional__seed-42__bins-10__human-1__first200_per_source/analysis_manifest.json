@@ -1,5 +1,5 @@
 {
-  "fingerprint": "4ce58ff1b262d54d0c2c2f111de7394bd663428f13fa769d0d501e3c7aaf05b2",
+  "fingerprint": "fb71a94467bc32bbf32f86c221ae1cf3622fcf6e9c01a069ae1126aaff159ad1",
   "settings": {
     "version": "1.5-rank-absence-categories-average-ties",
     "genre": "news",
@@ -9,7 +9,9 @@
       "Cohere",
       "Cohere_Chat",
       "GPT-4",
-      "Human"
+      "Human",
+      "Mistral_7B",
+      "Mistral_7B_Chat"
     ],
     "prompting": null,
     "attack": "null",
@@ -45,6 +47,14 @@
         "02e2b07109412568321c4682ad9aedfe1fe2a6656a6369af8917d94475f12006"
       ],
       [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Mistral_7B/motifs.csv",
+        "e2d8d460fd47d84772544fa9e85c2739065b0ff2e213b6fad64c5894e9513911"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Mistral_7B_Chat/motifs.csv",
+        "2d9c7e084f630a75309d82f8a9709fb1652175edde161e586929f72243977b13"
+      ],
+      [
         "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-news__source-ChatGPT__n_sentences-10.xml",
         "2000a230bd8a96d83c94c2c86725eae02678862adb9bb99265ca81bd20abb3ba"
       ],
@@ -63,15 +73,25 @@
       [
         "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-news__source-Human__n_sentences-10.xml",
         "18a101083acfa89267c788bbb10e93c8244332d6d0a77c52125d19a3ee061c49"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-news__source-Mistral_7B__n_sentences-10.xml",
+        "d308a67f17ed592843112f9ae7f8ee92e4d2f97a7bdd6a9a1d27f1d1389206a7"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0007__genre-news__source-Mistral_7B_Chat__n_sentences-10.xml",
+        "eeca659bd22a733f4c1722b40ab08c86492acc2698bc8cbea1f7cd99689b5014"
       ]
     ]
   },
-  "n_motifs": 84,
+  "n_motifs": 104,
   "n_documents": {
     "Human": 200,
     "ChatGPT": 200,
     "Cohere": 200,
     "Cohere_Chat": 200,
-    "GPT-4": 200
+    "GPT-4": 200,
+    "Mistral_7B": 200,
+    "Mistral_7B_Chat": 200
   }
 }

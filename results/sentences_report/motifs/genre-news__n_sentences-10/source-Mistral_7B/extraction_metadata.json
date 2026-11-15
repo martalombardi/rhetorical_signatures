@@ -1,0 +1,26 @@
+{
+  "signature": {
+    "version": 3,
+    "forest_sha256": "d308a67f17ed592843112f9ae7f8ee92e4d2f97a7bdd6a9a1d27f1d1389206a7",
+    "grammar_sha256": "1ee72fc090296e1b7ea7044b2a8d3029f79ad871c1ddb28acd9e50378716da20",
+    "min_relations": 1,
+    "min_depth": 1,
+    "include_wildcards": true
+  },
+  "status": "COMPLETED",
+  "csv_sha256": "e2d8d460fd47d84772544fa9e85c2739065b0ff2e213b6fad64c5894e9513911",
+  "json_sha256": "e8feba449a7e1774fce07a9cb90eb7acd2c325517c5ef62a55b3d8f835bdfb6a",
+  "result": {
+    "dataset": "genre-news__n_sentences-10",
+    "source": "Mistral_7B",
+    "status": "COMPLETED",
+    "n_motifs": 95,
+    "n_wildcard_motifs": 36,
+    "n_grammar_templates": 95,
+    "cached": false,
+    "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Mistral_7B"
+  },
+  "forest": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-news__source-Mistral_7B__n_sentences-10.xml",
+  "grammar": "/content/rhetorical_signatures/data/rst/unmatched/domain-news__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/compressed/0006__genre-news__source-Mistral_7B__n_sentences-10/0006__genre-news__source-Mistral_7B__n_sentences-10.reptxt",
+  "generated_at": "2026-11-15T15:09:49.658064+00:00"
+}

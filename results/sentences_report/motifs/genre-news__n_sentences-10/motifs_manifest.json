@@ -54,7 +54,27 @@
       "n_grammar_templates": 49,
       "cached": true,
       "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Human"
+    },
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "Mistral_7B",
+      "status": "COMPLETED",
+      "n_motifs": 95,
+      "n_wildcard_motifs": 36,
+      "n_grammar_templates": 95,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Mistral_7B"
+    },
+    {
+      "dataset": "genre-news__n_sentences-10",
+      "source": "Mistral_7B_Chat",
+      "status": "COMPLETED",
+      "n_motifs": 26,
+      "n_wildcard_motifs": 1,
+      "n_grammar_templates": 26,
+      "cached": false,
+      "output_dir": "/content/rhetorical_signatures/results/sentences_report/motifs/genre-news__n_sentences-10/source-Mistral_7B_Chat"
     }
   ],
-  "generated_at": "2026-11-15T14:46:38.018393+00:00"
+  "generated_at": "2026-11-15T15:09:49.737492+00:00"
 }
