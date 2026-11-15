@@ -1,0 +1,13 @@
+{
+  "fingerprint": "6a2f2dd837784f48f870ac170a54d6d03fe5fbef546d5a7da428534afcf903f3",
+  "settings": {
+    "version": "1.0-document-diversity-bootstrap",
+    "input_hash": "5512ad282837e53f49b9a98e356f696538595f95fc296fe75b95946253cd9e8a",
+    "human_source": "Human",
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "genre": "reddit",
+    "n_sentences": 10
+  }
+}

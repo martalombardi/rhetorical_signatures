@@ -1,0 +1,97 @@
+{
+  "fingerprint": "0e0bea60ebd8bcb87f48ed6ca4be18d1eb13e51047e6b10a87556e06f08c32f7",
+  "settings": {
+    "version": "1.4-compact-rank-scatter-js-tables-only",
+    "genre": "reddit",
+    "n_sentences": 10,
+    "sources": [
+      "ChatGPT",
+      "Cohere",
+      "Cohere_Chat",
+      "GPT-4",
+      "Human",
+      "Mistral_7B",
+      "Mistral_7B_Chat"
+    ],
+    "prompting": null,
+    "attack": "null",
+    "decoding": "greedy",
+    "repetition_penalty": "no",
+    "matched": false,
+    "sampling": "proportional",
+    "tree_set": "first200_per_source",
+    "n_boot": 10000,
+    "confidence": 0.95,
+    "seed": 42,
+    "top_k": 100,
+    "human_source": "Human",
+    "inputs": [
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-ChatGPT/motifs.csv",
+        "9561847beeb670b9a24e628d1345228506652e246c8bf55dee0fee14848fd249"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Cohere/motifs.csv",
+        "7cdc21553fc5a504e04ff8b39fe4b5926643b4a08b9936d04f73879703894ca0"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Cohere_Chat/motifs.csv",
+        "070ad2a03009fe14b921afec94844d37c1feef29aeedfd1042d58123c685d228"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-GPT-4/motifs.csv",
+        "270f47b47b524f37a959c6604687f03567aa80311c81141a5b8260c72528a4d5"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Human/motifs.csv",
+        "9a88b3c8f7017ccc62f49429de316bcb71c685663c7662c139bb06a439aea676"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Mistral_7B/motifs.csv",
+        "02aaec10566d393d7bf29bbede65a7a3850f8de6eda02a24889be531a1745680"
+      ],
+      [
+        "/content/rhetorical_signatures/results/sentences_report/motifs/genre-reddit__n_sentences-10/source-Mistral_7B_Chat/motifs.csv",
+        "1119aecd6baf2f51e473514d9dd8bb4aec9bd3c012a41f22467b78baaf578d9f"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0001__genre-reddit__source-ChatGPT__n_sentences-10.xml",
+        "86cf748abc12349c46d6dd77855e5364fd0867c0086c1a116c2e52e22547304c"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0002__genre-reddit__source-Cohere__n_sentences-10.xml",
+        "6792c88a9924f1cc52dfa65a1ea09103fe6844bdc3b061cea0d6f04f6dd26368"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0003__genre-reddit__source-Cohere_Chat__n_sentences-10.xml",
+        "841f71ab1184aaa23b248fe839e5d17bb13d3c66e3c398e07e7a0587d4c70d41"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0004__genre-reddit__source-GPT-4__n_sentences-10.xml",
+        "77ec9d9a73ec4e57c7e0c8ae5d47fa15b7d491c601ac28537f7d8545d2f49ae2"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0005__genre-reddit__source-Human__n_sentences-10.xml",
+        "2a744e8d9a2ae1551c45a3f93aeafcbdfaf1d5f4ed046e37148bed6ef25d4a80"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0006__genre-reddit__source-Mistral_7B__n_sentences-10.xml",
+        "7269558205c97cc80fad3729bef94d38abc1dc3f7818f3502d3c123394664115"
+      ],
+      [
+        "/content/rhetorical_signatures/data/rst/unmatched/domain-reddit__prompting-all__attack-null__decoding-greedy__rep-no/range-10-10__best-10__matched-0__proportional__seed-42__bins-10__human-1/forests/0007__genre-reddit__source-Mistral_7B_Chat__n_sentences-10.xml",
+        "236f29ee6084db8af369957ea44fb54570d6d34e0ce00db4218b1f9954e362ec"
+      ]
+    ]
+  },
+  "n_motifs": 68,
+  "n_documents": {
+    "Human": 200,
+    "ChatGPT": 200,
+    "Cohere": 200,
+    "Cohere_Chat": 200,
+    "GPT-4": 200,
+    "Mistral_7B": 200,
+    "Mistral_7B_Chat": 200
+  }
+}

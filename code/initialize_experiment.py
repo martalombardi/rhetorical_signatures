@@ -235,6 +235,33 @@ structural_inspector = load_project_module(
 
 
 # ------------------------------------------------------------
+# Motif divergence analysis
+# ------------------------------------------------------------
+
+DIVERGENCE_SCRIPT = (
+    CODE_DIR
+    / "05_divergence_analysis"
+    / "01_analyze_motif_divergence.py"
+)
+
+divergence_analyzer = load_project_module(
+    "divergence_analyzer",
+    DIVERGENCE_SCRIPT,
+)
+
+
+DIVERSITY_SCRIPT = (
+    CODE_DIR
+    / "05_divergence_analysis"
+    / "02_analyze_motif_diversity.py"
+)
+
+diversity_analyzer = load_project_module(
+    "diversity_analyzer",
+    DIVERSITY_SCRIPT,
+)
+
+# ------------------------------------------------------------
 # TreeRePair binaries
 # ------------------------------------------------------------
 
