@@ -35,7 +35,7 @@ from config import (  # noqa: E402
     locate_training_file,
 )
 
-SELECTION_VERSION = 1
+SELECTION_VERSION = 3
 
 
 def _slug(value: object) -> str:
@@ -107,7 +107,7 @@ def _validate_statistics(documents: pd.DataFrame, sentences: pd.DataFrame) -> No
         raise ValueError(f"Missing sentence columns: {sorted(missing)}")
     if documents["id"].isna().any() or documents["id"].astype("string").duplicated().any():
         raise ValueError("Document IDs must be non-null and unique")
-    if sentences[["id", "sentence_idx"]].isna().any() or sentences.duplicated(["id", "sentence_idx"]).any():
+    if sentences[["id", "sentence_idx"]].isna().any().any() or sentences.duplicated(["id", "sentence_idx"]).any():
         raise ValueError("Sentence IDs and indices must be non-null and unique")
     if documents[["n_sentences", "n_words"]].isna().any().any():
         raise ValueError("Missing document statistics")
@@ -182,26 +182,179 @@ def _source_summary(documents: pd.DataFrame, sentence_rows: pd.DataFrame) -> pd.
     return pd.DataFrame(rows)
 
 
-def _save_figures(documents: pd.DataFrame, sentence_rows: pd.DataFrame, figures_dir: Path) -> None:
-    import matplotlib
-    matplotlib.use("Agg")
+def _plot_comparison_grid(original_documents, original_sentences, eligible_documents,
+                          eligible_sentences, balanced_documents, balanced_sentences,
+                          *, title, eligible_label, balanced_label, output_dir=None,
+                          filename="length_distributions", show=True):
+    """2x3: filtered RAID; eligible full documents vs matched full documents.
+
+    Density curves use all observations, without percentile trimming or axis zoom.
+    """
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
     import seaborn as sns
 
-    figures_dir.mkdir(parents=True, exist_ok=True)
-    for metric, frame, column, title, xlabel in (
-        ("words_per_sentence", sentence_rows, "n_words", "Words per sentence", "Words"),
-        ("sentences_per_document", documents, "n_sentences", "Sentences per document", "Sentences"),
-        ("words_per_document", documents, "n_words", "Words per document", "Words"),
-    ):
-        fig, ax = plt.subplots(figsize=(9, 5))
-        # ECDF works for discrete values and strongly skewed distributions.
-        sns.ecdfplot(data=frame, x=column, hue="source", ax=ax)
-        ax.set(title=title, xlabel=xlabel, ylabel="Cumulative proportion")
-        ax.grid(alpha=0.2)
-        fig.tight_layout()
-        fig.savefig(figures_dir / f"{metric}_ecdf.png", dpi=220)
-        plt.close(fig)
+    sources = [s for s in MODEL_ORDER if s in set(original_documents["source"].dropna())]
+    palette = dict(zip(sources, sns.color_palette("colorblind", len(sources))))
+    specs = (("n_sentences", "Sentences per document", False),
+             ("n_words", "Words per document", False),
+             ("n_words", "Words per sentence", True))
+    fig, axes = plt.subplots(2, 3, figsize=(19, 9), constrained_layout=True)
+
+    def draw(ax, frame, column, style="solid"):
+        data = frame[["source", column]].copy()
+        data[column] = pd.to_numeric(data[column], errors="coerce")
+        data = data.replace([np.inf, -np.inf], np.nan).dropna()
+        for source in sources:
+            series = data.loc[data["source"].eq(source), column]
+            if series.empty:
+                continue
+            if series.nunique() < 2:
+                ax.axvline(float(series.iloc[0]), color=palette[source],
+                           linestyle=style, linewidth=1.8, alpha=0.9)
+            else:
+                sns.kdeplot(x=series, ax=ax, color=palette[source],
+                            linestyle=style, linewidth=1.8, bw_adjust=1,
+                            cut=0, clip=(0, None), warn_singular=False)
+
+    for j, (column, label, is_sentence) in enumerate(specs):
+        original = original_sentences if is_sentence else original_documents
+        eligible = eligible_sentences if is_sentence else eligible_documents
+        balanced = balanced_sentences if is_sentence else balanced_documents
+        draw(axes[0, j], original, column)
+        draw(axes[1, j], eligible, column, style="dashed")
+        draw(axes[1, j], balanced, column, style="solid")
+        for i in range(2):
+            ax = axes[i, j]
+            ax.set_xlabel(label)
+            ax.set_ylabel("Probability density" if j == 0 else "")
+            ax.set_xlim(left=0)
+            ax.grid(alpha=0.2)
+            ax.set_axisbelow(True)
+        axes[0, j].set_title(label, fontweight="semibold")
+
+    for i, label in enumerate(("Original RAID (filtered)", "Eligible vs matched")):
+        axes[i, 0].annotate(label, xy=(-0.22, 0.5), xycoords="axes fraction",
+                            rotation=90, va="center", ha="center",
+                            fontweight="semibold", fontsize=11)
+    source_handles = [Line2D([0], [0], color=palette[s], lw=2, label=s) for s in sources]
+    style_handles = [Line2D([0], [0], color="black", linestyle="dashed", lw=2,
+                            label=eligible_label),
+                     Line2D([0], [0], color="black", linestyle="solid", lw=2,
+                            label=balanced_label)]
+    fig.legend(handles=source_handles + style_handles, loc="outside lower center",
+               ncol=min(len(source_handles) + 2, 6), frameon=False)
+    fig.suptitle(title, fontsize=16, fontweight="semibold")
+    if output_dir is not None:
+        output = Path(output_dir)
+        output.mkdir(parents=True, exist_ok=True)
+        fig.savefig(output / f"{filename}.png", dpi=220, bbox_inches="tight")
+        fig.savefig(output / f"{filename}.pdf", bbox_inches="tight")
+    if show:
+        plt.show()
+    plt.close(fig)  # Prevent Colab/Jupyter from rendering the same figure twice.
+    return fig
+
+
+def plot_matched_distributions(documents: pd.DataFrame, sentences: pd.DataFrame,
+                               matched: pd.DataFrame, *, k: int | None = None,
+                               figures_dir: str | Path | None = None,
+                               show: bool = True):
+    """Original filtered RAID; >=k full documents vs matched full documents."""
+    _validate_statistics(documents, sentences)
+    if k is None:
+        k = int(matched.attrs.get("raid_metadata", {}).get("k", 0))
+    if k < 1:
+        raise ValueError("k must be provided to plot matched distributions")
+    original_sentences = sentences[["id", "n_words"]].merge(
+        documents[["id", "source"]], on="id", validate="many_to_one")
+    eligible_docs = documents.loc[pd.to_numeric(documents["n_sentences"],
+                                             errors="raise").ge(k)].copy()
+    eligible_sentences = original_sentences.loc[
+        original_sentences["id"].astype("string").isin(eligible_docs["id"].astype("string"))]
+    matched_sentences = original_sentences.loc[
+        original_sentences["id"].astype("string").isin(matched["id"].astype("string"))]
+    return _plot_comparison_grid(
+        documents, original_sentences, eligible_docs, eligible_sentences,
+        matched, matched_sentences,
+        title=f"RAID matched selection (at least {k} sentences)",
+        eligible_label=f"Eligible full documents (>= {k} sentences)",
+        balanced_label="Matched full documents",
+        output_dir=figures_dir, filename="matched_length_distributions", show=show)
+
+
+def _load_cached_selection(folder: Path, expected: dict, documents: pd.DataFrame):
+    """Reuse legacy and current caches when selection parameters can be verified.
+
+    Missing optional provenance fields are accepted; conflicting recorded values
+    are not. The actual selected IDs and matching invariants are checked.
+    """
+    paths = {name: folder / name for name in
+             ("matched_documents.csv", "statistics.csv", "metadata.json")}
+    missing = [name for name, path in paths.items() if not path.is_file()]
+    if missing:
+        print(f"Matched cache not found in {folder} (missing: {', '.join(missing)})")
+        return None
+    try:
+        with paths["metadata.json"].open("r", encoding="utf-8") as handle:
+            metadata = json.load(handle)
+        # A changed implementation version does not change previously selected IDs.
+        # Older versions did not store input-analysis provenance fields.
+        optional = {"selection_version", "input_analysis_created_utc",
+                    "input_n_documents", "input_n_sentences", "source_csv"}
+        for key, value in expected.items():
+            if key in optional:
+                continue
+            if key in metadata and metadata[key] != value:
+                print(f"Matched cache parameter differs: {key}")
+                return None
+            if key not in metadata and key in {"k", "m", "domain", "prompting",
+                                              "attack", "decoding", "repetition_penalty"}:
+                print(f"Matched cache cannot verify parameter: {key}")
+                return None
+        selected = pd.read_csv(paths["matched_documents.csv"],
+                               dtype={"id": "string", "source_id": "string", "source": "string"})
+        summary = pd.read_csv(paths["statistics.csv"])
+        if selected.empty or not {"id", "source_id", "source", "text", "n_sentences"}.issubset(selected.columns):
+            raise ValueError("Selected documents are empty or missing required columns")
+        if selected["id"].isna().any() or selected["id"].duplicated().any():
+            raise ValueError("Invalid or duplicated document IDs")
+        if selected["text"].isna().any() or selected["text"].astype("string").str.strip().eq("").any():
+            raise ValueError("Missing full texts")
+        if (pd.to_numeric(selected["n_sentences"], errors="raise") < expected["k"]).any():
+            raise ValueError("Some documents have fewer than k sentences")
+        if set(selected["source"]) != set(expected["sources"]):
+            raise ValueError("Source set differs")
+        if selected.duplicated(["source_id", "source"]).any():
+            raise ValueError("Duplicate source in matched group")
+        counts = selected.groupby("source_id")["source"].nunique()
+        if not counts.eq(len(expected["sources"])).all():
+            raise ValueError("Incomplete matched groups")
+        if expected["m"] is not None and len(counts) != expected["m"]:
+            raise ValueError("Matched group count differs from m")
+        current = documents[["id", "source_id", "source", "n_sentences"]].copy()
+        current["id"] = current["id"].astype("string")
+        current["source_id"] = current["source_id"].astype("string")
+        joined = selected[["id", "source_id", "source", "n_sentences"]].merge(
+            current, on="id", how="left", suffixes=("_cached", "_current"), validate="one_to_one")
+        if joined["source_current"].isna().any():
+            raise ValueError("Cached IDs not present in current filtered analysis")
+        if not (joined["source_cached"].astype(str) == joined["source_current"].astype(str)).all():
+            raise ValueError("Cached sources differ from current analysis")
+        if not (joined["source_id_cached"].astype(str) == joined["source_id_current"].astype(str)).all():
+            raise ValueError("Cached source IDs differ from current analysis")
+        if not (pd.to_numeric(joined["n_sentences_cached"]) ==
+                pd.to_numeric(joined["n_sentences_current"])).all():
+            raise ValueError("Sentence counts differ from current analysis")
+        if summary.empty or "source" not in summary or set(summary["source"]) != set(expected["sources"]):
+            raise ValueError("Missing or incomplete statistics")
+        metadata.setdefault("selection_version", 2)
+        selected.attrs["raid_metadata"] = metadata
+        summary.attrs["raid_metadata"] = metadata
+        return selected, summary, metadata
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+        print(f"Matched cache invalid: {exc}")
+        return None
 
 
 def select_matched_dataset(
@@ -271,6 +424,34 @@ def select_matched_dataset(
             "documents.attrs['raid_metadata'] before matching."
         )
 
+    # Cache lookup precedes matching and recovery of full texts from the RAID CSV.
+    source_names = list(dict.fromkeys(MODEL_ORDER))
+    source_csv = Path(input_file or original_meta.get("input_file") or locate_training_file())
+    folder = _output_directory(_resolve_filtered_root(output_root), filters, k, m, seed)
+    expected_cache = {
+        **filters,
+        "selection_version": SELECTION_VERSION,
+        "k": k,
+        "m": m,
+        "seed": seed if m is not None else None,
+        "sources": source_names,
+        "source_csv": str(source_csv.resolve()),
+        "input_analysis_created_utc": original_meta.get("created_utc"),
+        "input_n_documents": len(documents),
+        "input_n_sentences": len(sentences),
+    }
+    cached = _load_cached_selection(folder, expected_cache, documents)
+    if cached is not None:
+        selected, summary, meta = cached
+        print(f"Loaded existing matched dataset: {folder}")
+        if plot:
+            plot_matched_distributions(
+                documents, sentences, selected, k=k,
+                figures_dir=folder / "figures" if save else None, show=True
+            )
+        return selected, summary, meta
+    print("Matched cache missing or incompatible; rebuilding automatically.")
+
     frame = documents.copy()
     frame["id"] = frame["id"].astype("string")
     frame["source_id"] = frame["source_id"].astype("string").str.strip()
@@ -306,7 +487,6 @@ def select_matched_dataset(
     if len(selected) != len(chosen) * len(source_names):
         raise AssertionError("Matching invariant violated: incomplete selected groups")
 
-    source_csv = Path(input_file or original_meta.get("input_file") or locate_training_file())
     ids = set(selected["id"].astype(str))
     source_by_id = dict(zip(selected["id"].astype(str), selected["source"].astype(str)))
     full_texts = _recover_full_texts(ids, source_by_id, source_csv, filters, chunksize=chunksize)
@@ -340,25 +520,30 @@ def select_matched_dataset(
         "n_documents_selected": len(selected),
         "n_source_id_groups_discarded_due_to_duplicates": len(duplicate_groups),
         "source_csv": str(source_csv.resolve()),
+        "input_analysis_created_utc": original_meta.get("created_utc"),
+        "input_n_documents": len(documents),
+        "input_n_sentences": len(sentences),
         "created_utc": datetime.now(timezone.utc).isoformat(),
     }
     selected.attrs["raid_metadata"] = meta
     summary.attrs["raid_metadata"] = meta
 
     if save:
-        folder = _output_directory(_resolve_filtered_root(output_root), filters, k, m, seed)
         folder.mkdir(parents=True, exist_ok=True)
         selected.to_csv(folder / "matched_documents.csv", index=False)
         sentence_frame.to_csv(folder / "sentence_statistics.csv", index=False)
         summary.to_csv(folder / "statistics.csv", index=False)
         with (folder / "metadata.json").open("w", encoding="utf-8") as handle:
             json.dump(meta, handle, indent=2, ensure_ascii=False)
-        if plot:
-            _save_figures(selected, sentence_frame, folder / "figures")
         print(f"Saved matched dataset: {folder}")
+    if plot:
+        figures_dir = folder / "figures" if save else None
+        plot_matched_distributions(
+            documents, sentences, selected, k=k, figures_dir=figures_dir, show=True
+        )
     print(f"Matched groups: {len(chosen):,} / {available:,} available; "
           f"{len(selected):,} documents across {len(source_names)} sources")
     return selected, summary, meta
 
 
-__all__ = ["select_matched_dataset"]
+__all__ = ["select_matched_dataset", "plot_matched_distributions"]

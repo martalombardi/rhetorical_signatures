@@ -12,8 +12,8 @@ SENTENCE_ANALYSIS_REBUILD = False
 SENTENCE_ANALYSIS_SHOW_PROGRESS = True
 
 # Dataset selection
-SELECTION_MODE = "unmatched"  # "matched" or "unmatched"
-K_SENTENCES = 10                # Matched: minimum; unmatched: first k retained
+SELECTION_MODE = "matched"  # "matched" or "unmatched"
+K_SENTENCES = 6                # Matched: minimum; unmatched: first k retained
 M_DOCUMENTS = None             # None: all matched groups / max balanced unmatched
 N_BINS = 10                    # Unmatched length-stratification quantiles
 SEED = 42                      # Explicit reproducible sampling seed
@@ -25,11 +25,11 @@ SELECTION_PLOT = False  # Generate the two figures explicitly in the notebook
 # RST parsing
 # For unmatched, set equal to K_SENTENCES; for matched, downstream parsing
 # must be checked to ensure full texts are used rather than truncated.
-N_SENTENCES = 10
+N_SENTENCES = 6
 RST_MODEL = "tchewik/isanlp_rst_v3"
 RST_MODEL_VERSION = "rstdt"
 RST_DEVICE = "auto"
-RST_LIMIT = None
+RST_LIMIT = 200
 RST_REBUILD = False
 RST_RETRY_ERRORS = False
 

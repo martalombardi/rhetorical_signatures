@@ -554,108 +554,121 @@ def select_unmatched_dataset(
             folder / "eligible_first_k_lengths.csv", index=False)
         with (folder / "metadata.json").open("w", encoding="utf-8") as handle:
             json.dump(meta, handle, indent=2, ensure_ascii=False)
-        if plot:
-            plot_unmatched_distributions(documents, sentences, selected, k, save_dir=folder / "figures")
         print(f"Saved unmatched dataset: {folder}")
+    if plot:
+        figures_dir = folder / "figures" if save else None
+        plot_unmatched_distributions(documents, sentences, selected, k, save_dir=figures_dir)
     print(f"Eligible: {len(eligible):,} | balanced: {target:,} per source | selected: {len(selected):,}")
     return selected, summary, meta
 
 
-def plot_unmatched_distributions(documents: pd.DataFrame, sentences: pd.DataFrame,
-                                 selected: pd.DataFrame, k: int,
-                                 save_dir: str | Path | None = None):
-    """Plot full RAID-filtered dataset and balanced first-k unmatched dataset.
-
-    Figure 1: all documents, without minimum-k eligibility filtering.
-    Figure 2: balanced documents truncated to their first k sentences.
-    The stratification itself remains based on eligible first-k word counts.
-    """
+def _plot_comparison_grid(original_documents, original_sentences, eligible_documents,
+                          eligible_sentences, balanced_documents, balanced_sentences,
+                          *, title, eligible_label, balanced_label, output_dir=None,
+                          filename="length_distributions", show=True):
+    """2x3: original filtered RAID and eligible vs balanced first-k distributions."""
     import matplotlib.pyplot as plt
     from matplotlib.lines import Line2D
     import seaborn as sns
 
-    sources = [s for s in MODEL_ORDER if s in selected["source"].unique()]
-    if not sources:
-        raise ValueError("No selected sources to plot")
+    sources = [s for s in MODEL_ORDER if s in set(original_documents["source"].dropna())]
     palette = dict(zip(sources, sns.color_palette("colorblind", len(sources))))
-    handles = [Line2D([0], [0], color=palette[s], lw=2, label=s) for s in sources]
+    specs = (("n_sentences", "Sentences per document", False),
+             ("n_words", "Words per document", False),
+             ("n_words", "Words per sentence", True))
+    fig, axes = plt.subplots(2, 3, figsize=(19, 9), constrained_layout=True)
 
-    # Original data: every document surviving the RAID filters, not just eligible ones.
-    original_documents = documents.copy()
-    original_sentences = sentences.merge(
-        original_documents[["id", "source"]], on="id", how="inner",
-        validate="many_to_one",
-    )
-
-    # Selected data: exactly the first k sentences per selected document.
-    selected_ids = selected["id"].astype("string")
-    selected_sentences = original_sentences.loc[
-        original_sentences["id"].astype("string").isin(selected_ids)
-        & pd.to_numeric(original_sentences["sentence_idx"], errors="raise").le(k)
-    ].copy()
-    selected_documents = selected.copy()
-    if "first_k_words" not in selected_documents.columns:
-        if "n_words" not in selected_documents.columns:
-            raise ValueError("Selected documents need first_k_words or n_words")
-        selected_documents["first_k_words"] = selected_documents["n_words"]
-    selected_documents["mean_words_per_sentence"] = selected_documents["first_k_words"] / k
-
-    counts = selected_sentences.groupby("id").size()
-    if not counts.reindex(selected_ids, fill_value=0).eq(k).all():
-        raise ValueError("Selected documents do not have exactly k sentence records")
-
-    figure_specs = [
-        (
-            "Original RAID dataset (before eligibility filtering and balancing)",
-            "original_full_dataset",
-            [
-                (original_documents, "n_sentences", "Sentences per document"),
-                (original_documents, "n_words", "Words per document"),
-                (original_sentences, "n_words", "Words per sentence"),
-            ],
-        ),
-        (
-            f"Balanced unmatched dataset (first {k} sentences per document)",
-            "balanced_first_k_dataset",
-            [
-                (selected_documents, "first_k_words", f"Total words in first {k} sentences"),
-                (selected_documents, "mean_words_per_sentence", f"Mean words per sentence (first {k})"),
-                (selected_sentences, "n_words", f"Words per individual sentence (first {k})"),
-            ],
-        ),
-    ]
-
-    figures = []
-    for title, filename, panels in figure_specs:
-        fig, axes = plt.subplots(1, 3, figsize=(17, 4.6), constrained_layout=True)
-        for ax, (frame, column, xlabel) in zip(axes, panels):
-            values = pd.to_numeric(frame[column], errors="coerce")
-            upper = float(values.quantile(0.99))
-            subset = frame.loc[values.notna() & values.le(upper)].copy()
-            subset[column] = values.loc[subset.index]
-            if subset.empty:
-                raise ValueError(f"No observations for plot: {xlabel}")
-            if subset[column].nunique() < 2:
-                ax.axvline(float(subset[column].iloc[0]), color="black", lw=2, ls="--")
+    def draw(ax, frame, column, style="solid"):
+        data = frame[["source", column]].copy()
+        data[column] = pd.to_numeric(data[column], errors="coerce")
+        data = data.replace([np.inf, -np.inf], np.nan).dropna()
+        for source in sources:
+            series = data.loc[data["source"].eq(source), column]
+            if series.empty:
+                continue
+            if series.nunique() < 2:
+                ax.axvline(float(series.iloc[0]), color=palette[source],
+                           linestyle=style, linewidth=1.8, alpha=0.9)
             else:
-                sns.kdeplot(
-                    data=subset, x=column, hue="source", hue_order=sources,
-                    palette=palette, common_norm=False, bw_adjust=1.0,
-                    cut=0, clip=(0, None), linewidth=2, fill=False,
-                    warn_singular=False, legend=False, ax=ax,
-                )
-            ax.set(xlabel=xlabel, ylabel="Probability density", title=xlabel)
-            ax.set_xlim(left=0, right=max(upper, 1))
+                sns.kdeplot(x=series, ax=ax, color=palette[source],
+                            linestyle=style, linewidth=1.8, bw_adjust=1,
+                            cut=0, clip=(0, None), warn_singular=False)
+        return data[column]
+
+    balanced_specs = (("n_words", "Words per document (first k)", False),
+                      ("mean_words_per_sentence", "Mean words per sentence (first k)", False),
+                      ("n_words", "Words per individual sentence (first k)", True))
+
+    for j, (column, label, is_sentence) in enumerate(specs):
+        original = original_sentences if is_sentence else original_documents
+        balanced_column, balanced_label, balanced_is_sentence = balanced_specs[j]
+        eligible = eligible_sentences if balanced_is_sentence else eligible_documents
+        balanced = balanced_sentences if balanced_is_sentence else balanced_documents
+
+        draw(axes[0, j], original, column)
+        draw(axes[1, j], eligible, balanced_column, style="dashed")
+        draw(axes[1, j], balanced, balanced_column, style="solid")
+        axes[0, j].set_xlabel(label)
+        axes[1, j].set_xlabel(balanced_label)
+        for i in range(2):
+            ax = axes[i, j]
+            ax.set_ylabel("Probability density" if j == 0 else "")
             ax.grid(alpha=0.2)
-        fig.suptitle(title, fontsize=14, fontweight="semibold")
-        fig.legend(handles=handles, loc="outside lower center", ncol=min(len(sources), 7))
-        if save_dir is not None:
-            dest = Path(save_dir)
-            dest.mkdir(parents=True, exist_ok=True)
-            fig.savefig(dest / f"{filename}.png", dpi=220, bbox_inches="tight")
+            ax.set_axisbelow(True)
+            ax.set_xlim(left=0)
+        axes[0, j].set_title(label, fontweight="semibold")
+
+    for i, label in enumerate(("Original RAID (filtered)",
+                               "Eligible vs balanced")):
+        axes[i, 0].annotate(label, xy=(-0.24, 0.5), xycoords="axes fraction",
+                            rotation=90, va="center", ha="center",
+                            fontweight="semibold", fontsize=11)
+    source_handles = [Line2D([0], [0], color=palette[s], lw=2, label=s) for s in sources]
+    style_handles = [Line2D([0], [0], color="black", linestyle="dashed", lw=2,
+                            label=eligible_label),
+                     Line2D([0], [0], color="black", linestyle="solid", lw=2,
+                            label=balanced_label)]
+    fig.legend(handles=source_handles + style_handles, loc="outside lower center",
+               ncol=min(len(source_handles) + 2, 6), frameon=False)
+    fig.suptitle(title, fontsize=16, fontweight="semibold")
+    if output_dir is not None:
+        output = Path(output_dir)
+        output.mkdir(parents=True, exist_ok=True)
+        fig.savefig(output / f"{filename}.png", dpi=220, bbox_inches="tight")
+        fig.savefig(output / f"{filename}.pdf", bbox_inches="tight")
+    if show:
         plt.show()
-        figures.append(fig)
-    return figures
+    plt.close(fig)  # Prevent duplicate rendering in Jupyter/Colab.
+    return None
+
+
+def plot_unmatched_distributions(documents: pd.DataFrame, sentences: pd.DataFrame,
+                                 selected: pd.DataFrame, k: int,
+                                 save_dir: str | Path | None = None, show: bool = True):
+    """Original filtered RAID; eligible first-k vs balanced first-k."""
+    _validate_statistics(documents, sentences)
+    eligible, first = prepare_unmatched_eligible(documents, sentences, k)
+    original_sentences = sentences[["id", "n_words"]].merge(
+        documents[["id", "source"]], on="id", validate="many_to_one")
+    # For first-k comparison, each document contributes exactly k sentences.
+    eligible_docs = eligible[["id", "source", "first_k_words"]].copy()
+    eligible_docs["n_sentences"] = k
+    eligible_docs["n_words"] = eligible_docs["first_k_words"]
+    eligible_docs["mean_words_per_sentence"] = eligible_docs["first_k_words"] / k
+    balanced_docs = selected[["id", "source", "n_sentences", "n_words"]].copy()
+    balanced_docs["mean_words_per_sentence"] = balanced_docs["n_words"] / k
+    balanced_sentences = first.loc[first["id"].astype("string").isin(
+        selected["id"].astype("string"))].copy()
+    expected = k * len(balanced_docs)
+    if len(balanced_sentences) != expected:
+        raise ValueError(f"Incomplete balanced first-k sentences: {len(balanced_sentences)} != {expected}")
+    return _plot_comparison_grid(
+        documents, original_sentences, eligible_docs, first,
+        balanced_docs, balanced_sentences,
+        title=f"RAID unmatched selection (first {k} sentences)",
+        eligible_label=f"Eligible: first {k} sentences",
+        balanced_label=f"Balanced unmatched: first {k} sentences",
+        output_dir=save_dir, filename="unmatched_length_distributions", show=show)
 
 
 __all__ = ["analyze_sentence_lengths", "load_or_analyze_sentence_lengths",
