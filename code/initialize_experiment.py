@@ -86,6 +86,8 @@ from config import (
     TRAIN_FILE,
     RESULTS_DIR,
     FILTERED_DIR,
+    MATCHED_DIR,
+    UNMATCHED_DIR,
     RANDOM_SEED,
     MODEL_ORDER,
     MODEL_NAMES,
@@ -114,26 +116,24 @@ def load_project_module(name, script_path):
     return module
 
 # ------------------------------------------------------------
-# Load processing script
+# Load dataset selection modules
 # ------------------------------------------------------------
 
-process_sentences = load_project_module(
-    "process_sentences",
-    PROCESSING_DIR / "02_process_sentences.py",
+unmatched_selector = load_project_module(
+    "unmatched_selector",
+    PROCESSING_DIR / "02_unmatched_dataset_selection.py",
+)
+matched_selector = load_project_module(
+    "matched_selector",
+    PROCESSING_DIR / "03_matched_dataset_selection.py",
 )
 
-SELECTION_VERSION = getattr(
-    process_sentences,
-    "SELECTION_VERSION",
-    None,
-)
-
-if SELECTION_VERSION != 2:
-    raise RuntimeError(
-        "Expected 02_process_sentences.py with "
-        "SELECTION_VERSION = 2. "
-        "Replace the old script before continuing."
-    )
+# Keep the shared sentence-analysis API used by existing notebook cells.
+process_sentences = unmatched_selector
+SELECTION_VERSION = {
+    "matched": matched_selector.SELECTION_VERSION,
+    "unmatched": unmatched_selector.SELECTION_VERSION,
+}
 
 # ------------------------------------------------------------
 # Load RST parsing script
@@ -279,6 +279,31 @@ if SEED is None:
 if MOTIF_RESULTS_DIR is None:
     MOTIF_RESULTS_DIR = RESULTS_DIR / "motifs"
 
+if SELECTION_MODE not in {"matched", "unmatched"}:
+    raise ValueError("SELECTION_MODE must be 'matched' or 'unmatched'")
+if isinstance(K_SENTENCES, bool) or not isinstance(K_SENTENCES, int) or K_SENTENCES < 1:
+    raise ValueError("K_SENTENCES must be a positive integer")
+if M_DOCUMENTS is not None and (
+    isinstance(M_DOCUMENTS, bool)
+    or not isinstance(M_DOCUMENTS, int)
+    or M_DOCUMENTS < 1
+):
+    raise ValueError("M_DOCUMENTS must be None or a positive integer")
+if not isinstance(N_BINS, int) or isinstance(N_BINS, bool) or N_BINS < 1:
+    raise ValueError("N_BINS must be a positive integer")
+if not isinstance(SEED, int) or isinstance(SEED, bool):
+    raise ValueError("SEED must be an integer or None in experiment_config.py")
+
+# Compatibility with existing RST notebook cells that reference RST_MATCHED.
+RST_MATCHED = SELECTION_MODE == "matched"
+dataset_selector = matched_selector if RST_MATCHED else unmatched_selector
+
+if not RST_MATCHED and N_SENTENCES != K_SENTENCES:
+    raise ValueError("For unmatched selection, N_SENTENCES must equal K_SENTENCES")
+
+# Both selection modules accept output_root; it is the parent of matched/unmatched.
+SELECTION_OUTPUT_ROOT = FILTERED_DIR
+
 # ------------------------------------------------------------
 # Resolve compression selection
 # ------------------------------------------------------------
@@ -312,7 +337,7 @@ run_name = process_sentences._run_name(
 )
 
 analysis_dir = RESULTS_DIR / run_name
-selection_base = FILTERED_DIR / run_name
+selection_base = MATCHED_DIR if RST_MATCHED else UNMATCHED_DIR
 
 # ------------------------------------------------------------
 # Plot configuration
@@ -359,12 +384,14 @@ print(f"spaCy: {spacy.__version__}")
 print("\nDataset selection")
 print("-" * 55)
 
-print(f"Selection algorithm version: {SELECTION_VERSION}")
-print(f"Sampling: {SAMPLING}")
-print(f"Sentence range: {MIN_SENTENCES}–{MAX_SENTENCES}")
-print(f"Number of bins: {N_BINS}")
+print(f"Selection algorithm versions: {SELECTION_VERSION}")
+print(f"Mode: {SELECTION_MODE}")
+print(f"k sentences: {K_SENTENCES}")
+print(f"m documents per source: {M_DOCUMENTS}")
+print(f"Unmatched length bins: {N_BINS if not RST_MATCHED else 'N/A'}")
 print(f"Seed: {SEED}")
-print(f"Include Human: {INCLUDE_HUMAN}")
+print(f"Save selection: {SELECTION_SAVE}")
+print(f"Generate selection plots: {SELECTION_PLOT}")
 
 print("\nRST parsing")
 print("-" * 55)
@@ -426,7 +453,7 @@ print(f"Domain: {DOMAIN} | Prompting: {PROMPTING} | Attack: {ATTACK}")
 print(f"Decoding: {DECODING} | Repetition penalty: {REPETITION_PENALTY}")
 print(f"RAID dataset: {TRAIN_FILE}")
 print(f"Sentence analysis: {analysis_dir}")
-print(f"Selected datasets: {selection_base}")
+print(f"Selected datasets root: {selection_base}")
 print(f"RST output root: {RST_DATA_DIR}")
 print(f"Forest builder: {RST_DIR / '02_build_xml_forests.py'}")
 print(f"Compression script: {COMPRESSION_SCRIPT}")
