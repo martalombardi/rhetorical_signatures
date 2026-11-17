@@ -14,34 +14,9 @@ from pathlib import Path
 # Dependencies
 # ------------------------------------------------------------
 
-def ensure_package(module, package=None):
-    if importlib.util.find_spec(module) is None:
-        print(f"Installing {package or module}...")
-
-        subprocess.check_call([
-            sys.executable, "-m", "pip", "install", "-q",
-            package or module
-        ])
-
-        importlib.invalidate_caches()
 
 
-dependencies = {
-    "huggingface_hub": "huggingface-hub",
-    "spacy": "spacy>=3.8,<3.9",
-    "pandas": "pandas",
-    "numpy": "numpy",
-    "scipy": "scipy",
-    "matplotlib": "matplotlib",
-    "seaborn": "seaborn",
-    "tqdm": "tqdm",
-    "torch": "torch",
-    "isanlp_rst": "isanlp-rst",
-    "isanlp": "git+https://github.com/iinemo/isanlp.git",
-}
 
-for module, package in dependencies.items():
-    ensure_package(module, package)
 
 # ------------------------------------------------------------
 # Imports
@@ -75,7 +50,7 @@ if not spacy.util.is_package("en_core_web_sm"):
 # Project paths
 # ------------------------------------------------------------
 
-ROOT = Path("/content/rhetorical_signatures")
+ROOT = Path(__file__).resolve().parents[1]
 
 CODE_DIR = ROOT / "code"
 
@@ -267,7 +242,7 @@ diversity_analyzer = load_project_module(
 
 TREEREPAIR_VENDOR_DIR = (
     CODE_DIR
-    / "03_treerepair"
+    / "03_tree_compression" / "treerepair"
     / "vendor"
     / "TreeRePair"
 )

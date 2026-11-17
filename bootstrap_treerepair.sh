@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
-DEST="$ROOT/code/02_treerepair"
+DEST="$ROOT/code/03_tree_compression/treerepair"
 VENDOR="$DEST/vendor/TreeRePair"
 URL='https://github.com/dc0d32/TreeRePair.git'
 
@@ -91,16 +91,16 @@ Original GPL-3.0 license is retained in vendor/TreeRePair.
 
 Build in a fresh Colab runtime:
 
-    bash code/02_treerepair/setup.sh
+    bash code/03_tree_compression/treerepair/setup.sh
 
 For a full rebuild:
 
-    bash code/02_treerepair/setup.sh --clean
+    bash code/03_tree_compression/treerepair/setup.sh --clean
 
 The vendored C++ code is currently UNPATCHED. The memory-cleanup fix must be
 recovered and validated separately before production RST forest compression.
 README
 
 echo "Vendored TreeRePair at revision $REV"
-echo "Next: bash code/02_treerepair/setup.sh"
+echo "Next: bash code/03_tree_compression/treerepair/setup.sh"
 echo 'Review git status and commit the new source files.'
